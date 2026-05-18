@@ -12,7 +12,7 @@ import { fetchProjects } from "../BACKEND/utils/api";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
-const Sidebar = ({ onSelect, onInboxClick }) => {
+const Sidebar = ({ onSelect, onInboxClick, onDashboardClick }) => {
   const { currentUser } = useAuth();
   const isAdmin = currentUser?.role === "admin";
 
@@ -199,6 +199,7 @@ const Sidebar = ({ onSelect, onInboxClick }) => {
               onClick={() => {
                 setSelectedItem(item);
                 if (item === "Inbox") onInboxClick();
+                if (item === "Dashboard") onDashboardClick();
               }}
               className={`flex items-center gap-2 truncate cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 transition ${selectedItem === item ? "bg-neutral-300" : ""
                 }`}
@@ -211,7 +212,7 @@ const Sidebar = ({ onSelect, onInboxClick }) => {
           ))}
 
           <hr className="opacity-25 my-2" />
-          <p className="ms-2 my-1 font-medium text-neutral-600">My Workspace</p>
+          <p className="ms-2 my-1 text-neutral-600">My Workspace</p>
 
           {/* Projects Section */}
           {loading ? (

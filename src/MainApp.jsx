@@ -8,6 +8,7 @@ import PendingApproval from "./Components/PendingApproval";
 import Calendar from "./Components/Calendar";
 import Kanban from "./Components/Kanban";
 import Inbox from "./Components/Inbox";
+import Dashboard from "./Components/Dashboard";
 
 import { IoIosArrowForward } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
@@ -54,6 +55,14 @@ const MainApp = () => {
     setTaskGroupName("");
   };
 
+  const handleDashboardClick = () => {
+    setView("dashboard");
+    setProjectId(null);
+    setProjectName("Dashboard");
+    setModuleName("");
+    setTaskGroupName("");
+  };
+
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
@@ -81,13 +90,21 @@ const MainApp = () => {
 
   return (
     <div className="flex bg-neutral-200 min-h-screen sf-regular tracking-tight">
-      <Sidebar onSelect={handleSelect} onInboxClick={handleInboxClick} />
+      <Sidebar
+        onSelect={handleSelect}
+        onInboxClick={handleInboxClick}
+        onDashboardClick={handleDashboardClick}
+      />
 
       <div className="flex-1 flex justify-center p-4 ps-0 max-w-[82%]">
         <div className="w-full h-[94vh] bg-white rounded-lg flex flex-col overflow-hidden">
           {view === "inbox" ? (
             <div className="flex-1 h-full">
               <Inbox />
+            </div>
+          ) : view === "dashboard" ? (
+            <div className="flex-1 h-full">
+              <Dashboard />
             </div>
           ) : (
             <>

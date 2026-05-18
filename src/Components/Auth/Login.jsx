@@ -61,7 +61,7 @@ const Login = () => {
         </h2>
 
         {error && (
-          <p className="text-red-600 text-sm sf-regular tracking-tight text-center mb-6 bg-red-50 py-2.5 rounded-2xl">
+          <p className="text-red-600 sf-regular tracking-tight text-center mb-6 bg-red-50 py-1 rounded-lg">
             {error}
           </p>
         )}
