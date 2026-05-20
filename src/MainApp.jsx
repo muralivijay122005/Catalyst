@@ -14,7 +14,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
 import { IoLogOutOutline } from "react-icons/io5";
 import { CiViewTable } from "react-icons/ci";
-import { LuCalendar } from "react-icons/lu";
+import { LuCalendar, LuUser } from "react-icons/lu";
 import { HiOutlineCollection, HiOutlineFolder } from "react-icons/hi";
 import { TbProgress, TbHourglassEmpty } from "react-icons/tb";
 import { FiPlus } from "react-icons/fi";
@@ -128,28 +128,25 @@ const MainApp = () => {
                     )}
                   </div>
 
-                  {/* USER INFO + ROLE + LOGOUT */}
-                  <div className="flex items-center gap-3">
-                    {/* Logged-in Username */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <FiUser size={18} className="text-neutral-600" />
-                      <span className="font-medium text-neutral-800">{fullName}</span>
+                  {/* USER PROFILE & LOGOUT */}
+                  <div className="flex items-center gap-4">
+                    {/* Creative Minimal User Badge */}
+                    <div className="flex items-center gap-2 py-1.5 px-1.5 select-none text-sm">
+                      <LuUser size={16}  />
+                      <span className="tracking-tight">{fullName}</span>
+                      <span className="select-none mx-0.5">•</span>
+                      <span className="capitalize">
+                        {currentRole === "projectManager" ? "Manager" : currentRole === "teamMember" ? "Member" : currentRole}
+                      </span>
                     </div>
 
-                    {/* Role Badge */}
-                    <div
-                      className={`px-3 py-1 flex items-center gap-1.5 rounded text-sm ${badgeStyle.container} capitalize`}
-                    >
-                      {currentRole === "projectManager" ? "Manager" : currentRole}
-                    </div>
-
-                    {/* Logout Button */}
+                    {/* Minimalist Logout Button */}
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-1.5 text-sm px-3 py-1 rounded border border-neutral-300 hover:bg-neutral-100 transition text-neutral-700"
+                      className="flex items-center gap-1.5 text-sm px-3 py-1 rounded border border-neutral-300 hover:border-neutral-100 hover:bg-neutral-200 transition-all duration-300"
                     >
-                      <IoLogOutOutline size={18} />
-                      Logout
+                      <IoLogOutOutline size={15} />
+                      <span>Logout</span>
                     </button>
                   </div>
                 </div>
@@ -179,7 +176,7 @@ const MainApp = () => {
               </div>
 
               {/* MAIN CONTENT */}
-              <div className="flex-1 overflow-y-auto px-6 pb-6 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto px-6 pb-6 custom-scroll-hidden">
                 {!projectId ? (
                   <div className="flex flex-col items-center justify-center h-full text-neutral-500 sf-regular">
                     <p className="text-lg mb-3">No project selected</p>
@@ -210,7 +207,7 @@ const MainApp = () => {
                               </button>
                             )}
                           </div>
-                          <div className="overflow-x-auto rounded-lg border border-neutral-200">
+                          <div className="overflow-x-auto rounded-lg border border-neutral-200 custom-scroll-hidden">
                             <InProgress
                               projectId={projectId}
                               moduleId={moduleId}
@@ -224,7 +221,7 @@ const MainApp = () => {
                             <TbHourglassEmpty size={16} />
                             Pending Approval
                           </div>
-                          <div className="overflow-x-auto rounded-lg border border-neutral-200">
+                          <div className="overflow-x-auto rounded-lg border border-neutral-200 custom-scroll-hidden">
                             <PendingApproval
                               projectId={projectId}
                               moduleId={moduleId}

@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 import {
   HiOutlineFolder,
-  HiOutlineHome,
   HiOutlineInboxIn,
-  HiOutlineUserGroup,
   HiPlus,
 } from "react-icons/hi";
+import { GoBook } from "react-icons/go";
+import { RxDashboard } from "react-icons/rx";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchProjects } from "../BACKEND/utils/api";
 import axios from "axios";
@@ -192,31 +192,40 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick }) => {
         </div>
 
         {/* Navigation */}
-        <div className="flex flex-col gap-2">
-          {["Dashboard", "Inbox", "Teams"].map((item) => (
-            <div
-              key={item}
-              onClick={() => {
-                setSelectedItem(item);
-                if (item === "Inbox") onInboxClick();
-                if (item === "Dashboard") onDashboardClick();
-              }}
-              className={`flex items-center gap-2 truncate cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 transition ${selectedItem === item ? "bg-neutral-300" : ""
-                }`}
-            >
-              {item === "Dashboard" && <HiOutlineHome size={20} strokeWidth={1.5} />}
-              {item === "Inbox" && <HiOutlineInboxIn size={20} strokeWidth={1.5} />}
-              {item === "Teams" && <HiOutlineUserGroup size={20} strokeWidth={1.5} />}
-              <span className="truncate">{item}</span>
-            </div>
-          ))}
+<div className="flex flex-col gap-1">
+  {["Dashboard", "Inbox", "Docs"].map((item) => (
+    <div
+      key={item}
+      onClick={() => {
+        setSelectedItem(item);
 
-          <hr className="opacity-25 my-2" />
-          <p className="ms-2 my-1 text-neutral-600">My Workspace</p>
+        if (item === "Inbox") onInboxClick();
+        if (item === "Dashboard") onDashboardClick();
+      }}
+      className={`flex items-center gap-2 cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 transition ${
+        selectedItem === item ? "bg-neutral-300" : ""
+      }`}
+    >
+      {/* Fixed Icon Width */}
+      <div className="w-5 flex items-center justify-center">
+        {item === "Dashboard" && <RxDashboard size={18} />}
+        {item === "Inbox" && (
+          <HiOutlineInboxIn size={20} strokeWidth={1.5} />
+        )}
+        {item === "Docs" && <GoBook size={18} strokeWidth={0.5} />}
+      </div>
+
+      <span className="truncate">{item}</span>
+    </div>
+  ))}
+
+  <hr className="opacity-25 mt-2" />
+
+  <p className="ms-2 mt-2 text-neutral-600">My Workspace</p>
 
           {/* Projects Section */}
           {loading ? (
-            <div className="text-neutral-500 ps-3">Loading projects...</div>
+            <div className="ps-3">Loading projects</div>
           ) : error ? (
             <div className="text-red-500 ps-3 text-xs">{error}</div>
           ) : projects.length === 0 ? (

@@ -162,7 +162,7 @@ const {
                         tasks: [
                             {
                                 name: "JWT Authentication Setup",
-                                desc: "Implement secure JWT login system",
+                                desc: "Implement a secure JWT login system with encrypted access and refresh tokens.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Ongoing",
@@ -171,7 +171,7 @@ const {
                             },
                             {
                                 name: "OAuth2 Integration",
-                                desc: "Add Google/GitHub login support",
+                                desc: "Configure passport strategies to add Google and GitHub social login integrations.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Pending",
@@ -180,7 +180,7 @@ const {
                             },
                             {
                                 name: "Session Management",
-                                desc: "Manage user sessions securely",
+                                desc: "Manage active sessions securely with dynamic Redis-backed session token storage.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Completed",
@@ -189,7 +189,7 @@ const {
                             },
                             {
                                 name: "Login Rate Limiting",
-                                desc: "Prevent brute force attacks",
+                                desc: "Use express-rate-limit middleware to prevent brute-force attacks on login endpoints.",
                                 assignee: users[3],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -198,7 +198,7 @@ const {
                             },
                             {
                                 name: "Integration Tests",
-                                desc: "Test auth with frontend",
+                                desc: "Run end-to-end integration tests to verify safe client authentication requests.",
                                 assignee: users[4],
                                 priority: "Normal",
                                 status: "Not Started",
@@ -207,7 +207,7 @@ const {
                             },
                             {
                                 name: "Code Review",
-                                desc: "Review authentication code",
+                                desc: "Perform a detailed code review on the authentication system security guidelines.",
                                 assignee: users[1],
                                 priority: "Low",
                                 status: "Pending",
@@ -221,7 +221,7 @@ const {
                         tasks: [
                             {
                                 name: "Password Hashing Audit",
-                                desc: "Upgrade to Argon2 hashing",
+                                desc: "Upgrade password hashing schemes to utilize modern secure Argon2 hashing rules.",
                                 assignee: users[2],
                                 priority: "Urgent",
                                 status: "Halted",
@@ -230,7 +230,7 @@ const {
                             },
                             {
                                 name: "API Rate Throttling",
-                                desc: "Limit API calls per minute",
+                                desc: "Throttles request calls per key to avoid service degradation across endpoints.",
                                 assignee: users[3],
                                 priority: "Normal",
                                 status: "Pending",
@@ -239,7 +239,7 @@ const {
                             },
                             {
                                 name: "Security Headers Setup",
-                                desc: "Add CSP, HSTS headers",
+                                desc: "Configure robust HTTP security response headers utilizing the helmet node package.",
                                 assignee: users[4],
                                 priority: "Low",
                                 status: "Ongoing",
@@ -248,7 +248,7 @@ const {
                             },
                             {
                                 name: "Token Expiry Validation",
-                                desc: "Auto expire old tokens",
+                                desc: "Verify access token expiration limits and trigger silent token refresh processes.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -257,7 +257,7 @@ const {
                             },
                             {
                                 name: "System Performance Report",
-                                desc: "Analyze auth speed",
+                                desc: "Analyze overall response latency and compile detailed database performance audit reports.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Completed",
@@ -266,7 +266,7 @@ const {
                             },
                             {
                                 name: "Penetration Testing",
-                                desc: "Full security scan",
+                                desc: "Execute regular penetration testing to proactively locate system security issues safely.",
                                 assignee: users[3],
                                 priority: "Low",
                                 status: "Pending",
@@ -283,7 +283,7 @@ const {
                         tasks: [
                             {
                                 name: "User Profile CRUD",
-                                desc: "Create/edit/delete user profiles",
+                                desc: "Create comprehensive profile management dashboards that support secure avatar uploads perfectly.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Not Started",
@@ -292,7 +292,7 @@ const {
                             },
                             {
                                 name: "Role Assignment",
-                                desc: "Assign admin/manager roles",
+                                desc: "Assign project roles securely and enforce strict validator rules for system managers.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Pending",
@@ -301,7 +301,7 @@ const {
                             },
                             {
                                 name: "User List Pagination",
-                                desc: "Load users in pages",
+                                desc: "Implement efficient server-side pagination to limit database response query payload sizes.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Ongoing",
@@ -310,7 +310,7 @@ const {
                             },
                             {
                                 name: "Email Notification Service",
-                                desc: "Send welcome/reset emails",
+                                desc: "Configure automated welcome letter emails and safe verification link distribution scripts.",
                                 assignee: users[3],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -319,7 +319,7 @@ const {
                             },
                             {
                                 name: "Activity Logs",
-                                desc: "Track user actions",
+                                desc: "Audit interactive system interaction logs to monitor critical action history details.",
                                 assignee: users[4],
                                 priority: "Normal",
                                 status: "Completed",
@@ -328,7 +328,7 @@ const {
                             },
                             {
                                 name: "Admin Panel Review",
-                                desc: "Review user dashboard",
+                                desc: "Review overall dashboard styling layouts and optimize loading speeds for admin tables.",
                                 assignee: users[0],
                                 priority: "Low",
                                 status: "Pending",
@@ -342,7 +342,7 @@ const {
                         tasks: [
                             {
                                 name: "User Access Policy",
-                                desc: "Define role permissions",
+                                desc: "Establish clear role permission maps to protect critical administrative endpoint paths.",
                                 assignee: users[1],
                                 priority: "Urgent",
                                 status: "Halted",
@@ -351,7 +351,7 @@ const {
                             },
                             {
                                 name: "Session Timeout Logic",
-                                desc: "Auto logout after 30min",
+                                desc: "Automatically terminate inactive user sessions and clear corresponding security cookies safely.",
                                 assignee: users[2],
                                 priority: "Normal",
                                 status: "Pending",
@@ -360,7 +360,7 @@ const {
                             },
                             {
                                 name: "Data Encryption Policy",
-                                desc: "Encrypt sensitive fields",
+                                desc: "Encrypt sensitive user details in database models utilizing secure encryption libraries.",
                                 assignee: users[3],
                                 priority: "Low",
                                 status: "Not Started",
@@ -369,7 +369,7 @@ const {
                             },
                             {
                                 name: "API Permission Testing",
-                                desc: "Test role-based access",
+                                desc: "Run automated integration tests verifying that basic accounts cannot perform deletions.",
                                 assignee: users[4],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -378,7 +378,7 @@ const {
                             },
                             {
                                 name: "Password Policy Enforcement",
-                                desc: "Min 12 chars + symbols",
+                                desc: "Enforce strict complex password guidelines during initial user account registration phases.",
                                 assignee: users[0],
                                 priority: "Normal",
                                 status: "Ongoing",
@@ -387,7 +387,7 @@ const {
                             },
                             {
                                 name: "Audit Log Testing",
-                                desc: "Verify logs recorded",
+                                desc: "Test the user logger resilience against sudden system disconnects and errors.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Pending",
@@ -404,7 +404,7 @@ const {
                         tasks: [
                             {
                                 name: "Gateway Routing Setup",
-                                desc: "Define all API routes",
+                                desc: "Map secure internal service routes and expose modern public endpoints to microservices.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Completed",
@@ -413,7 +413,7 @@ const {
                             },
                             {
                                 name: "Load Balancer Configuration",
-                                desc: "Balance traffic across servers",
+                                desc: "Configure high-availability load balancing algorithms across core cluster nodes for traffic.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Pending",
@@ -422,7 +422,7 @@ const {
                             },
                             {
                                 name: "Rate Limiting Rules",
-                                desc: "100 req/min per IP",
+                                desc: "Set up traffic limits of hundred requests per minute for standard IPs.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Ongoing",
@@ -431,7 +431,7 @@ const {
                             },
                             {
                                 name: "API Logging Middleware",
-                                desc: "Log all API calls",
+                                desc: "Design high-speed logging middleware to capture and record detailed API system telemetry.",
                                 assignee: users[3],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -440,7 +440,7 @@ const {
                             },
                             {
                                 name: "Gateway Integration Testing",
-                                desc: "Test with frontend",
+                                desc: "Run end-to-end integration workflows connecting frontend calls through secure gateway proxies.",
                                 assignee: users[4],
                                 priority: "Normal",
                                 status: "Halted",
@@ -449,7 +449,7 @@ const {
                             },
                             {
                                 name: "Endpoint Failover Simulation",
-                                desc: "Test backup server",
+                                desc: "Conduct systematic failure simulations to verify robust automated routing recovery setups safely.",
                                 assignee: users[1],
                                 priority: "Low",
                                 status: "Pending",
@@ -463,7 +463,7 @@ const {
                         tasks: [
                             {
                                 name: "API Gateway Security Scan",
-                                desc: "Scan for vulnerabilities",
+                                desc: "Perform advanced vulnerability scanning of proxy paths and block common security injections.",
                                 assignee: users[2],
                                 priority: "Urgent",
                                 status: "Not Started",
@@ -472,7 +472,7 @@ const {
                             },
                             {
                                 name: "Traffic Monitoring Setup",
-                                desc: "Monitor API traffic",
+                                desc: "Integrate dashboard monitoring systems to graph inbound traffic rates and latency changes.",
                                 assignee: users[3],
                                 priority: "Normal",
                                 status: "Pending",
@@ -481,7 +481,7 @@ const {
                             },
                             {
                                 name: "Error Handling Framework",
-                                desc: "Standard error responses",
+                                desc: "Create uniform global error response templates and return standard REST error codes.",
                                 assignee: users[4],
                                 priority: "Low",
                                 status: "Completed",
@@ -490,7 +490,7 @@ const {
                             },
                             {
                                 name: "Token Verification Optimization",
-                                desc: "Faster JWT check",
+                                desc: "Optimize processing performance of incoming security token checkers using cache storage databases.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -499,7 +499,7 @@ const {
                             },
                             {
                                 name: "Deployment Automation",
-                                desc: "Auto deploy gateway",
+                                desc: "Automate gateway build pipelines using modern container configurations and safe deployment checks.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Ongoing",
@@ -508,7 +508,7 @@ const {
                             },
                             {
                                 name: "API Audit Logging",
-                                desc: "Log all API usage",
+                                desc: "Keep comprehensive records of all inbound proxy requests and chronological administrative updates.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Pending",
@@ -525,7 +525,7 @@ const {
                         tasks: [
                             {
                                 name: "Wireframe Creation",
-                                desc: "Design app layout",
+                                desc: "Draft beautiful interactive wireframes for workspace views to establish core visual layouts.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Ongoing",
@@ -534,7 +534,7 @@ const {
                             },
                             {
                                 name: "Color Scheme Finalization",
-                                desc: "Choose brand colors",
+                                desc: "Establish cohesive brand-aligned palettes and dynamic CSS properties for dark light modes.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Pending",
@@ -543,7 +543,7 @@ const {
                             },
                             {
                                 name: "Typography Guidelines",
-                                desc: "Define font system",
+                                desc: "Document complete design typography rules for all text scales and responsive settings.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Completed",
@@ -552,7 +552,7 @@ const {
                             },
                             {
                                 name: "Interactive Prototype Build",
-                                desc: "Figma prototype",
+                                desc: "Build modern functional Figma prototypes of task management screens for visual preview.",
                                 assignee: users[3],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -561,7 +561,7 @@ const {
                             },
                             {
                                 name: "User Flow Mapping",
-                                desc: "Map user journey",
+                                desc: "Map exhaustive step-by-step user journeys for account setup and dashboard edits safely.",
                                 assignee: users[4],
                                 priority: "Normal",
                                 status: "Not Started",
@@ -570,7 +570,7 @@ const {
                             },
                             {
                                 name: "Design System Documentation",
-                                desc: "Document components",
+                                desc: "Document clean UI design guidelines and reusable component specifications for developers.",
                                 assignee: users[1],
                                 priority: "Low",
                                 status: "Pending",
@@ -584,7 +584,7 @@ const {
                         tasks: [
                             {
                                 name: "Navigation Bar Implementation",
-                                desc: "Build responsive navbar",
+                                desc: "Design and implement a highly responsive header navigation navbar with mobile drawer.",
                                 assignee: users[2],
                                 priority: "Urgent",
                                 status: "Halted",
@@ -593,7 +593,7 @@ const {
                             },
                             {
                                 name: "Card Component Styling",
-                                desc: "Task cards design",
+                                desc: "Apply premium glassmorphic stylings to interactive cards and configure smooth animations.",
                                 assignee: users[3],
                                 priority: "Normal",
                                 status: "Pending",
@@ -602,7 +602,7 @@ const {
                             },
                             {
                                 name: "Modal Dialog Enhancements",
-                                desc: "Better modal UX",
+                                desc: "Optimize the modal popup layouts with clean background backdrops and transitions.",
                                 assignee: users[4],
                                 priority: "Low",
                                 status: "Ongoing",
@@ -611,7 +611,7 @@ const {
                             },
                             {
                                 name: "Button Variants Creation",
-                                desc: "Primary/secondary buttons",
+                                desc: "Create reusable buttons supporting diverse sizing and style configurations for interfaces.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -620,7 +620,7 @@ const {
                             },
                             {
                                 name: "Form Layout Polish",
-                                desc: "Final UI polish",
+                                desc: "Apply clean modern styling and robust visual focus states to inputs.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Completed",
@@ -629,7 +629,7 @@ const {
                             },
                             {
                                 name: "Responsive Grid Testing",
-                                desc: "Test on all devices",
+                                desc: "Run visual tests of layout grids across various modern mobile device viewports.",
                                 assignee: users[3],
                                 priority: "Low",
                                 status: "Pending",
@@ -646,7 +646,7 @@ const {
                         tasks: [
                             {
                                 name: "REST Endpoint Mapping",
-                                desc: "Connect to backend APIs",
+                                desc: "Implement backend API service mappings for front-end actions and database records.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Not Started",
@@ -655,7 +655,7 @@ const {
                             },
                             {
                                 name: "Data Sync Protocols",
-                                desc: "Real-time data sync",
+                                desc: "Configure real-time web sockets for direct message communications and channel updates.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Pending",
@@ -664,7 +664,7 @@ const {
                             },
                             {
                                 name: "Error Response Handling",
-                                desc: "Show user-friendly errors",
+                                desc: "Design user-friendly notification alerts for database connection losses and API errors.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Ongoing",
@@ -673,7 +673,7 @@ const {
                             },
                             {
                                 name: "Webhook Setup for Real-Time",
-                                desc: "Live updates via webhooks",
+                                desc: "Establish real-time webhook subscriptions for task state modifications and user updates.",
                                 assignee: users[3],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -682,7 +682,7 @@ const {
                             },
                             {
                                 name: "Cache Layer Integration",
-                                desc: "Redis caching layer",
+                                desc: "Add in-memory database query caches using ultra-fast Redis layers to accelerate loading.",
                                 assignee: users[4],
                                 priority: "Normal",
                                 status: "Completed",
@@ -691,7 +691,7 @@ const {
                             },
                             {
                                 name: "Auth Token Passing",
-                                desc: "Pass JWT to backend",
+                                desc: "Configure axios client interceptors to automatically forward JWT keys on requests.",
                                 assignee: users[1],
                                 priority: "Low",
                                 status: "Pending",
@@ -705,7 +705,7 @@ const {
                         tasks: [
                             {
                                 name: "Integration Test Suite",
-                                desc: "Test frontend-backend",
+                                desc: "Build comprehensive end-to-end testing scripts for frontend actions to verify endpoints.",
                                 assignee: users[2],
                                 priority: "Urgent",
                                 status: "Halted",
@@ -714,7 +714,7 @@ const {
                             },
                             {
                                 name: "Mock API Endpoints",
-                                desc: "Mock data for dev",
+                                desc: "Create localized mock server handlers for rapid prototype reviews and testing.",
                                 assignee: users[3],
                                 priority: "Normal",
                                 status: "Pending",
@@ -723,7 +723,7 @@ const {
                             },
                             {
                                 name: "Data Validation Rules",
-                                desc: "Validate form inputs",
+                                desc: "Define strict input data validation rules inside the router request payload layer.",
                                 assignee: users[4],
                                 priority: "Low",
                                 status: "Not Started",
@@ -732,7 +732,7 @@ const {
                             },
                             {
                                 name: "Performance Benchmarking",
-                                desc: "Test load times",
+                                desc: "Run comprehensive load tests to measure overall frontend page loading speeds.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -741,7 +741,7 @@ const {
                             },
                             {
                                 name: "Cross-Service Logging",
-                                desc: "Log frontend errors",
+                                desc: "Implement centralized tracking systems to monitor multi-service calls and verify logs.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Ongoing",
@@ -750,7 +750,7 @@ const {
                             },
                             {
                                 name: "Rollback Strategy Review",
-                                desc: "Plan rollback process",
+                                desc: "Draft fallback workflows and safe recovery procedures for critical API backend services.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Pending",
@@ -767,7 +767,7 @@ const {
                         tasks: [
                             {
                                 name: "AWS Instance Provisioning",
-                                desc: "Launch production server",
+                                desc: "Provision production-ready EC2 servers and configure secure RDS databases for backend applications.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Completed",
@@ -776,7 +776,7 @@ const {
                             },
                             {
                                 name: "Environment Config Files",
-                                desc: "Setup env variables",
+                                desc: "Generate secure production configurations and store API secrets inside environment variables safely.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Pending",
@@ -785,7 +785,7 @@ const {
                             },
                             {
                                 name: "Database Migration Scripts",
-                                desc: "Migrate old data",
+                                desc: "Write automated schema migration scripts for databases to safely execute structural updates.",
                                 assignee: users[2],
                                 priority: "Low",
                                 status: "Ongoing",
@@ -794,7 +794,7 @@ const {
                             },
                             {
                                 name: "SSL Certificate Setup",
-                                desc: "Free HTTPS with Let's Encrypt",
+                                desc: "Generate Let's Encrypt certificates using automated Certbot tools and force HTTPS routing.",
                                 assignee: users[3],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -803,7 +803,7 @@ const {
                             },
                             {
                                 name: "Load Balancer Rules",
-                                desc: "Route traffic properly",
+                                desc: "Create traffic distribution configurations for production server groups to maintain peak capacity.",
                                 assignee: users[4],
                                 priority: "Normal",
                                 status: "Halted",
@@ -812,7 +812,7 @@ const {
                             },
                             {
                                 name: "Backup Policy Definition",
-                                desc: "Daily automated backup",
+                                desc: "Configure automated daily snapshot backups for production databases to encrypted cloud storage.",
                                 assignee: users[1],
                                 priority: "Low",
                                 status: "Pending",
@@ -826,7 +826,7 @@ const {
                         tasks: [
                             {
                                 name: "GitHub Actions Workflow",
-                                desc: "Auto deploy on push",
+                                desc: "Design and implement direct CI/CD deployment pipelines on repository push events automatically.",
                                 assignee: users[2],
                                 priority: "Urgent",
                                 status: "Not Started",
@@ -835,7 +835,7 @@ const {
                             },
                             {
                                 name: "Automated Testing Stage",
-                                desc: "Run tests before deploy",
+                                desc: "Integrate automatic unit and interface checks into deployment pipelines to block failures.",
                                 assignee: users[3],
                                 priority: "Normal",
                                 status: "Pending",
@@ -844,7 +844,7 @@ const {
                             },
                             {
                                 name: "Staging Environment Deploy",
-                                desc: "Test before production",
+                                desc: "Set up isolated staging servers to test final builds before production release.",
                                 assignee: users[4],
                                 priority: "Low",
                                 status: "Completed",
@@ -853,7 +853,7 @@ const {
                             },
                             {
                                 name: "Production Rollout Plan",
-                                desc: "Safe production deploy",
+                                desc: "Formulate gradual rolling release strategies to minimize customer impact and service downtime.",
                                 assignee: users[0],
                                 priority: "Urgent",
                                 status: "Pending",
@@ -862,7 +862,7 @@ const {
                             },
                             {
                                 name: "Monitoring Alerts Config",
-                                desc: "Setup uptime alerts",
+                                desc: "Establish systematic alerts for server memory limits and request drops using channels.",
                                 assignee: users[1],
                                 priority: "Normal",
                                 status: "Ongoing",
@@ -871,7 +871,7 @@ const {
                             },
                             {
                                 name: "Rollback Automation Script",
-                                desc: "One-click rollback",
+                                desc: "Write high-reliability scripts for rapid one-click deployment rollbacks to stable initial builds.",
                                 assignee: users[3],
                                 priority: "Low",
                                 status: "Pending",
@@ -883,6 +883,220 @@ const {
                 ];
             }
 
+            // HELPER TO GENERATE UNIQUE ATTACHMENTS AND COMMENTS ACCORDING TO TASK NEEDS
+            const getSeedCommentsAndAttachments = (taskName, users) => {
+                const murali = { _id: users[0]._id, firstName: users[0].firstName, lastName: users[0].lastName };
+                const sarah = { _id: users[1]._id, firstName: users[1].firstName, lastName: users[1].lastName };
+                const michael = { _id: users[2]._id, firstName: users[2].firstName, lastName: users[2].lastName };
+                const emily = { _id: users[3]._id, firstName: users[3].firstName, lastName: users[3].lastName };
+                const daniel = { _id: users[4]._id, firstName: users[4].firstName, lastName: users[4].lastName };
+
+                if (taskName.includes("JWT")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "jwt_architecture_spec.pdf", type: "PDF", size: "1.2 MB", user: "Murali", time: "1d ago" },
+                            { id: 2, name: "jwt_flow_diagram.png", type: "Image", size: "3.4 MB", user: "Sarah", time: "12h ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: michael,
+                                text: "Are we using cookies or local storage for the tokens?",
+                                time: "3h ago",
+                                isYou: false,
+                                reactions: { "👍": [murali._id.toString()] }
+                            },
+                            {
+                                id: "c2",
+                                user: murali,
+                                text: "Let's stick to HTTP-only secure cookies for top-tier security.",
+                                time: "2h ago",
+                                isYou: true,
+                                reactions: { "❤️": [michael._id.toString()] }
+                            }
+                        ]
+                    };
+                }
+                if (taskName.includes("OAuth")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "oauth2_credentials_config.json", type: "JSON", size: "4 KB", user: "Emily", time: "2d ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: murali,
+                                text: "I set up Google and GitHub developers client IDs in the dev portal.",
+                                time: "2d ago",
+                                isYou: true,
+                                reactions: {}
+                            },
+                            {
+                                id: "c2",
+                                user: emily,
+                                text: "Added client secrets in env template. Will link button click to passport routing.",
+                                time: "1d ago",
+                                isYou: false,
+                                reactions: { "🔥": [murali._id.toString()] }
+                            }
+                        ]
+                    };
+                }
+                if (taskName.includes("Session")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "redis_store_config.yml", type: "YAML", size: "2 KB", user: "Michael", time: "3d ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: michael,
+                                text: "Session data will be stored in Redis to support horizontal scalability.",
+                                time: "3d ago",
+                                isYou: false,
+                                reactions: {}
+                            },
+                            {
+                                id: "c2",
+                                user: sarah,
+                                text: "Excellent choice! This keeps auth stateless and incredibly fast.",
+                                time: "2d ago",
+                                isYou: false,
+                                reactions: { "👍": [michael._id.toString(), murali._id.toString()] }
+                            }
+                        ]
+                    };
+                }
+                if (taskName.includes("Rate Limiting")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "rate_limiting_test.sh", type: "Shell", size: "800 B", user: "Emily", time: "4h ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: emily,
+                                text: "Used express-rate-limit to lock down /api/auth/login to max 5 attempts per 15 minutes.",
+                                time: "4h ago",
+                                isYou: false,
+                                reactions: { "👍": [murali._id.toString()] }
+                            },
+                            {
+                                id: "c2",
+                                user: murali,
+                                text: "Perfect. We should also add custom warning messages for user clarity.",
+                                time: "2h ago",
+                                isYou: true,
+                                reactions: {}
+                            }
+                        ]
+                    };
+                }
+                if (taskName.includes("Wireframe") || taskName.includes("Navbar") || taskName.includes("Design") || taskName.includes("Typography")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "brand_ui_mockups_v1.fig", type: "Figma", size: "5.4 MB", user: "Daniel", time: "1d ago" },
+                            { id: 2, name: "wireframes_flow_v2.pdf", type: "PDF", size: "2.1 MB", user: "Sarah", time: "18h ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: daniel,
+                                text: "Choosing Google Fonts Inter and Outfit. Looks clean and modern.",
+                                time: "1d ago",
+                                isYou: false,
+                                reactions: { "👍": [sarah._id.toString()] }
+                            },
+                            {
+                                id: "c2",
+                                user: sarah,
+                                text: "Agreed. Make sure we also configure dark mode gradients.",
+                                time: "12h ago",
+                                isYou: false,
+                                reactions: { "❤️": [daniel._id.toString()] }
+                            }
+                        ]
+                    };
+                }
+                if (taskName.includes("REST") || taskName.includes("Sync") || taskName.includes("Integration") || taskName.includes("API")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "api_endpoint_routes.xlsx", type: "Excel", size: "120 KB", user: "Daniel", time: "2d ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: daniel,
+                                text: "Hooked up dashboard statistics to backend API. Charts are rendering correctly.",
+                                time: "2d ago",
+                                isYou: false,
+                                reactions: { "🚀": [murali._id.toString()] }
+                            },
+                            {
+                                id: "c2",
+                                user: murali,
+                                text: "Awesome work! Response times look extremely fast on my end.",
+                                time: "1d ago",
+                                isYou: true,
+                                reactions: { "👍": [daniel._id.toString()] }
+                            }
+                        ]
+                    };
+                }
+                if (taskName.includes("AWS") || taskName.includes("Deploy") || taskName.includes("GitHub") || taskName.includes("Pipeline")) {
+                    return {
+                        attachments: [
+                            { id: 1, name: "aws_cloudformation_template.yml", type: "YAML", size: "18 KB", user: "Daniel", time: "3d ago" },
+                            { id: 2, name: "github_actions_workflow.yml", type: "YAML", size: "5 KB", user: "Murali", time: "1d ago" }
+                        ],
+                        comments: [
+                            {
+                                id: "c1",
+                                user: murali,
+                                text: "Configured GitHub Actions runner with the AWS secrets. Deploy is fully automated on main push.",
+                                time: "1d ago",
+                                isYou: true,
+                                reactions: { "🔥": [daniel._id.toString()] }
+                            },
+                            {
+                                id: "c2",
+                                user: michael,
+                                text: "Just did a test push and the pipeline built and deployed in 1m 45s. Incredible setup!",
+                                time: "12h ago",
+                                isYou: false,
+                                reactions: { "👍": [murali._id.toString(), daniel._id.toString()] }
+                            }
+                        ]
+                    };
+                }
+
+                // Fallback for general tasks
+                const cleanName = taskName.toLowerCase().replace(/[^a-z0-9_]/g, "_");
+                return {
+                    attachments: [
+                        { id: 1, name: `${cleanName}_spec.pdf`, type: "PDF", size: "850 KB", user: "Sarah", time: "2d ago" }
+                    ],
+                    comments: [
+                        {
+                            id: "c1",
+                            user: sarah,
+                            text: `Starting implementation work on ${taskName} today. Let's touch base on the sync call.`,
+                            time: "1d ago",
+                            isYou: false,
+                            reactions: {}
+                        },
+                        {
+                            id: "c2",
+                            user: murali,
+                            text: "Sounds like a solid plan. Keep me updated!",
+                            time: "5h ago",
+                            isYou: true,
+                            reactions: { "👍": [sarah._id.toString()] }
+                        }
+                    ]
+                };
+            };
+
             // CREATE TASK GROUPS AND TASKS
             for (const config of groupConfigs) {
                 const taskGroup = await TaskGroup.create({
@@ -891,18 +1105,23 @@ const {
                     moduleId: mod._id,
                     subtasks: [],
                 });
-                const tasks = config.tasks.map((t) => ({
-                    name: t.name,
-                    description: t.desc,
-                    assignee: t.assignee._id,
-                    projectId: mod.projectId,
-                    moduleId: mod._id,
-                    groupId: taskGroup._id,
-                    priority: t.priority,
-                    status: t.status,
-                    startDate: new Date(`${t.start}T00:00:00Z`),
-                    dueDate: new Date(`${t.due}T00:00:00Z`),
-                }));
+                const tasks = config.tasks.map((t) => {
+                    const extra = getSeedCommentsAndAttachments(t.name, users);
+                    return {
+                        name: t.name,
+                        description: t.desc,
+                        assignee: t.assignee._id,
+                        projectId: mod.projectId,
+                        moduleId: mod._id,
+                        groupId: taskGroup._id,
+                        priority: t.priority,
+                        status: t.status,
+                        startDate: new Date(`${t.start}T00:00:00Z`),
+                        dueDate: new Date(`${t.due}T00:00:00Z`),
+                        comments: extra.comments,
+                        attachments: extra.attachments,
+                    };
+                });
                 const createdTasks = await Task.insertMany(tasks);
                 await TaskGroup.findByIdAndUpdate(taskGroup._id, {
                     $set: { subtasks: createdTasks.map((t) => t._id) },

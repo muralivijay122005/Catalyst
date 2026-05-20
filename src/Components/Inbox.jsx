@@ -363,6 +363,18 @@ const Inbox = () => {
         }
     }, [currentUser, currentUserId]);
 
+    // Select the topmost channel as default when channels are loaded
+    useEffect(() => {
+        if (channels.length > 0 && !selectedChannel) {
+            const pubChannels = channels.filter(ch => !ch.isDM);
+            if (pubChannels.length > 0) {
+                setSelectedChannel(pubChannels[0]);
+            } else {
+                setSelectedChannel(channels[0]);
+            }
+        }
+    }, [channels, selectedChannel]);
+
     useEffect(() => {
         if (selectedChannel) fetchMessages(selectedChannel._id);
     }, [selectedChannel]);
@@ -418,11 +430,11 @@ const Inbox = () => {
                     </div>
                 </div>
 
-                <div className="overflow-y-auto px-4 space-y-6 custom-scroll">
+                <div className="overflow-y-auto px-4 space-y-6 custom-scroll-hidden">
                     {/* Public Channels */}
 <div>
     <div className="flex items-center justify-between mb-3 ps-2">
-        <div className="text-[11px] text-black/60 uppercase tracking-widest">Channels</div>
+        <div className="text-xs text-black/60">Channels</div>
         {currentUser?.role === 'admin' && (
             <button 
                 onClick={() => {
@@ -492,23 +504,32 @@ const Inbox = () => {
 )}
     <div>
         {filteredChannels.map(ch => (
-            <div key={ch._id} onClick={() => setSelectedChannel(ch)}
-                className={`flex items-center gap-3 px-3 py-1.5 rounded-md cursor-pointer transition-all ${selectedChannel?._id === ch._id ? "bg-neutral-200" : "hover:bg-neutral-100"}`}>
-                <span className="text-sm"><span className="text-md me-1">#</span> {ch.name}</span>
-            </div>
-        ))}
+            <div
+    key={ch._id}
+    onClick={() => setSelectedChannel(ch)}
+    className={`flex items-center gap-3 px-3 py-1 rounded-md cursor-pointer transition-all ${
+        selectedChannel?._id === ch._id
+            ? "bg-neutral-200 text-black"
+            : "hover:bg-neutral-100 text-black/70"
+    }`}
+>
+    <span className="text-sm">
+        <span className="text-md me-1">#</span> {ch.name}
+    </span>
+</div>
+          ))}
     </div>
 </div>
 
                     {/* Active DMs */}
                     <div>
-                        <div className="text-[11px] text-black/60 uppercase tracking-widest mb-3 px-2">Recent Chats</div>
+                        <div className="text-xs text-black/60 mb-3 px-2">Direct Messages</div>
                         <div className="space-y-1">
                             {activeDMs.map(dm => {
                                 const receiver = getDMReceiver(dm);
                                 return (
                                     <div key={dm._id} onClick={() => setSelectedChannel(dm)}
-                                        className={`flex items-center gap-3 px-2 py-1 rounded-md cursor-pointer transition-all ${selectedChannel?._id === dm._id ? "bg-neutral-200" : "hover:bg-neutral-100"}`}>
+                                        className={`flex items-center gap-2 px-2 py-1 rounded-md cursor-pointer transition-all ${selectedChannel?._id === dm._id ? "bg-neutral-200" : "hover:bg-neutral-100"}`}>
                                         <InitialAvatar name={receiver?.firstName} size={28} />
                                         <div className="flex-1 min-w-0 flex items-center justify-between">
                                             <p className="text-sm truncate">{receiver?.firstName} {receiver?.lastName}</p>
@@ -523,16 +544,15 @@ const Inbox = () => {
                     {/* Start New DM */}
                     {filteredUsers.length > 0 && (
                         <div>
-                            <div className="text-[11px]  text-neutral-400 uppercase tracking-widest mb-3 px-2">People</div>
+                            <div className="text-xs  text-black/60 mb-3 px-2">People</div>
                             <div className="space-y-1 pb-6">
                                 {filteredUsers.map(user => (
                                     <div key={user._id} onClick={() => startDM(user)}
-                                        className="flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer hover:bg-neutral-50 text-neutral-600 group transition-all">
-                                        <InitialAvatar name={user.firstName} size={32} />
+                                        className="flex items-center gap-3 px-2 py-1 rounded-xl cursor-pointer">
+                                        <InitialAvatar name={user.firstName} size={28} />
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm truncate">{user.firstName} {user.lastName}</p>
                                         </div>
-                                        <div className="text-[10px] text-neutral-300 uppercase">Chat</div>
                                     </div>
                                 ))}
                             </div>
@@ -571,7 +591,7 @@ const Inbox = () => {
 <div className="flex-1 overflow-y-auto p-8 space-y-1 bg-neutral-100 custom-scroll">   {/* Reduced overall spacing */}
     {loading && messages.length === 0 ? (
         <div className="flex justify-center items-center h-full">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-neutral-300 border-t-black"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-neutral-300 border-t-neutral-600"></div>
         </div>
     ) : messages.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-fit text-neutral-400 space-y-4">
@@ -600,7 +620,7 @@ const Inbox = () => {
                 <React.Fragment key={msg._id}>
                     {isNewDay && (
                         <div className="flex justify-center my-6">
-                            <div className="bg-amber-300/30  px-3 py-1 rounded-lg text-xs text-amber-800">
+                            <div className="bg-amber-300/30  px-2 py-1 rounded text-xs text-amber-900">
                                 {formatMessageDate(msg.createdAt)}
                             </div>
                         </div>
@@ -703,11 +723,7 @@ const Inbox = () => {
                         </div>
                     </>
                 ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center bg-neutral-100">
-                        <div className="w-20 h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center text-3xl mb-4 animate-bounce">💬</div>
-                        <h3 className="text-lg mb-1">Welcome to Catalyst Chat</h3>
-                        <p className="text-sm text-neutral-400">Select a team member or channel to get started</p>
-                    </div>
+                    <div className="flex-1 bg-neutral-100" />
                 )}
             </div>
         </div>

@@ -1,6 +1,6 @@
 // src/Components/Kanban.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { LuCalendar } from "react-icons/lu";
+import { GoCalendar } from "react-icons/go";
 import { IoMdArrowForward, IoMdArrowBack } from "react-icons/io";
 import { fetchTasks } from "../BACKEND/utils/api";
 
@@ -54,9 +54,9 @@ const Kanban = ({ projectId }) => {
   };
 
   const colorCls = {
-    red: "bg-red-100 text-red-700 ",
-    amber: "bg-amber-100 text-amber-700 ",
-    emerald: "bg-emerald-100 text-emerald-700 ",
+    red: "bg-red-600/15 text-red-800 ",
+    amber: "bg-amber-600/15 text-amber-800 ",
+    emerald: "bg-emerald-600/15 text-emerald-800 ",
   };
 
   const formatShortDate = (d) => {
@@ -76,7 +76,7 @@ const getAvatar = (assignee) => {
             <img
                 src={assignee.profilePicture}
                 alt={assignee.firstName}
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-7 h-7 rounded-full object-cover"
             />
         );
     }
@@ -85,7 +85,7 @@ const getAvatar = (assignee) => {
         }`.toUpperCase();
 
     return (
-        <div className="w-8 h-8 bg-neutral-300 text-neutral-600 rounded-full flex items-center justify-center text-xs font-medium">
+        <div className="w-7 h-7 bg-neutral-300 text-neutral-600 rounded-full flex items-center justify-center text-xs">
             {initials || "?"}
         </div>
     );
@@ -135,8 +135,8 @@ const getAvatar = (assignee) => {
                             }}
                             className="bg-white border border-neutral-200 hover:border hover:border-neutral-200 rounded-xl p-3 transition-all duration-200 cursor-pointer"
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-xs px-2 py-1.5 bg-white text-black rounded border border-neutral-200 truncate max-w-[170px]">
+                            <div className="flex items-center justify-between mb-4">
+                              <span className="text-xs px-2 py-1 bg-white text-black rounded border border-neutral-300 truncate max-w-[170px]">
                                 {t.moduleId?.name || "No Module"}
                               </span>
 
@@ -144,35 +144,35 @@ const getAvatar = (assignee) => {
                                 className={`text-xs px-2 py-1 rounded flex items-center gap-1.5 ${colorCls[col]}`}
                               >
                                 <span
-                                  className={`w-1.5 h-1.5 rounded-full ${
+                                  className={`w-1.25 h-1.25 rounded-full ${
                                     col === "red"
-                                      ? "bg-red-600"
+                                      ? "bg-red-800"
                                       : col === "amber"
-                                      ? "bg-amber-600"
-                                      : "bg-emerald-600"
+                                      ? "bg-amber-800"
+                                      : "bg-emerald-800"
                                   }`}
                                 />
                                 {t.priority}
                               </span>
                             </div>
 
-                            <p className="text-sm ms-1 mb-2 line-clamp-3">
+                            <p className="text-sm ms-1 mb-1 line-clamp-3">
                               {t.name}
                             </p>
 
-                            <hr className="border-neutral-300 my-4" />
+                            <hr className="border-neutral-300 my-3" />
 
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 text-xs text-neutral-500">
-                                <LuCalendar size={15} />
-                                <span className="mt-0.5">{formatShortDate(t.dueDate)}</span>
+                              <div className="flex items-center gap-1.5 text-sm text-neutral-500">
+                                <GoCalendar size={16} strokeWidth={0.5}/>
+                                <span className="mt-0.5 tracking-tighter">{formatShortDate(t.dueDate)}</span>
                               </div>
 
                               <div className="flex -space-x-2">
                                 {t.assignee ? (
                                   getAvatar(t.assignee)
                                 ) : (
-                                  <div className="w-8 h-8 rounded-full bg-neutral-300 text-neutral-600 flex items-center justify-center text-sm border-2 border-white">
+                                  <div className="w-7 h-7 rounded-full bg-neutral-300 text-neutral-600 flex items-center justify-center text-sm border-1.5 border-white">
                                     ?
                                   </div>
                                 )}

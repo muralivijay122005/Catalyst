@@ -36,6 +36,8 @@ const TaskSchema = new mongoose.Schema(
     startDate: { type: Date },
     dueDate: { type: Date },
     progress: { type: Number, min: 0, max: 100, default: 0 }, // Glow-up: Keep it 0-100
+    comments: { type: Array, default: [] },
+    attachments: { type: Array, default: [] },
   },
   { timestamps: true }
 );
