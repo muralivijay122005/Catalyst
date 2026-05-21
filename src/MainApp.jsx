@@ -9,6 +9,7 @@ import Calendar from "./Components/Calendar";
 import Kanban from "./Components/Kanban";
 import Inbox from "./Components/Inbox";
 import Dashboard from "./Components/Dashboard";
+import Docs from "./Components/Docs";
 
 import { IoIosArrowForward } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
@@ -63,6 +64,14 @@ const MainApp = () => {
     setTaskGroupName("");
   };
 
+  const handleDocsClick = () => {
+    setView("docs");
+    setProjectId(null);
+    setProjectName("Docs");
+    setModuleName("");
+    setTaskGroupName("");
+  };
+
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
@@ -94,6 +103,7 @@ const MainApp = () => {
         onSelect={handleSelect}
         onInboxClick={handleInboxClick}
         onDashboardClick={handleDashboardClick}
+        onDocsClick={handleDocsClick}
       />
 
       <div className="flex-1 flex justify-center p-4 ps-0 max-w-[82%]">
@@ -105,6 +115,10 @@ const MainApp = () => {
           ) : view === "dashboard" ? (
             <div className="flex-1 h-full">
               <Dashboard />
+            </div>
+          ) : view === "docs" ? (
+            <div className="flex-1 h-full">
+              <Docs />
             </div>
           ) : (
             <>
@@ -188,7 +202,7 @@ const MainApp = () => {
                       <div className="flex flex-col gap-6">
                         <div>
                           <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-1 text-sm p-1 px-2 rounded-md border border-amber-700/40 text-amber-900 bg-amber-500/15">
+                            <div className="flex items-center gap-1 text-sm p-1 px-2 rounded-md border border-indigo-700/40 text-indigo-900 bg-indigo-500/15">
                               <TbProgress size={16} />
                               In Progress
                             </div>
@@ -217,7 +231,7 @@ const MainApp = () => {
                         </div>
 
                         <div>
-                          <div className="flex items-center gap-1 text-sm p-1 px-2 mb-3 rounded-md border border-purple-700/40 text-purple-900 bg-purple-500/15 w-fit">
+                          <div className="flex items-center gap-1 text-sm p-1 px-2 mb-3 rounded-md border border-amber-700/40 text-amber-900 bg-amber-500/15 w-fit">
                             <TbHourglassEmpty size={16} />
                             Pending Approval
                           </div>

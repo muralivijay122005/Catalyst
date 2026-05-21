@@ -16,7 +16,7 @@ const BOTTOM_PAD = 12;
 
 /* ── Color Definitions ───────────────────────────────────── */
 const COLOR_BG = {
-    violet: "rgba(139,92,246,0.15)", sky: "rgba(14,165,233,0.15)",
+    indigo: "rgba(139,92,246,0.15)", sky: "rgba(14,165,233,0.15)",
     pink: "rgba(236,72,153,0.15)", yellow: "rgba(250,204,21,0.18)",
     green: "rgba(34,197,94,0.15)", emerald: "rgba(16,185,129,0.15)",
     amber: "rgba(245,158,11,0.18)", indigo: "rgba(99,102,241,0.15)",
@@ -25,28 +25,28 @@ const COLOR_BG = {
 };
 
 const COLOR_BORDER = {
-    violet: "#7c3aed", sky: "#0284c7", pink: "#db2777",
+    indigo: "#7c3aed", sky: "#0284c7", pink: "#db2777",
     yellow: "#d97706", green: "#16a34a", emerald: "#059669",
     amber: "#d97706", indigo: "#4338ca", rose: "#e11d48",
     cyan: "#0891b2", teal: "#0d9488", lime: "#65a30d",
 };
 
 const COLOR_TEXT = {
-    violet: "#5b21b6", sky: "#0369a1", pink: "#9d174d",
+    indigo: "#5b21b6", sky: "#0369a1", pink: "#9d174d",
     yellow: "#92400e", green: "#14532d", emerald: "#064e3b",
     amber: "#78350f", indigo: "#312e81", rose: "#881337",
     cyan: "#164e63", teal: "#134e4a", lime: "#365314",
 };
 
 const COLOR_DOT = {
-    violet: "#8b5cf6", sky: "#0ea5e9", pink: "#ec4899",
+    indigo: "#8b5cf6", sky: "#0ea5e9", pink: "#ec4899",
     yellow: "#facc15", green: "#22c55e", emerald: "#10b981",
     amber: "#f59e0b", indigo: "#6366f1", rose: "#f43f5e",
     cyan: "#06b6d4", teal: "#14b8a6", lime: "#84cc16",
 };
 
 const COLOR_PILL_BG = {
-    violet: "bg-violet-500/15",
+    indigo: "bg-indigo-500/15",
     sky: "bg-sky-500/15",
     pink: "bg-pink-500/15",
     yellow: "bg-yellow-500/15",

@@ -264,11 +264,11 @@ const TaskDetails = ({ task, onClose }) => {
                 {attachments.map((file) => (
                   <div
                     key={file.id}
-                    className="flex items-center justify-between p-2 py-1 bg-violet-600/15 border-l-4 border-violet-900"
+                    className="flex items-center justify-between p-2 py-1 bg-indigo-600/15 border-l-4 border-indigo-900"
                   >
                     <div className="flex items-center gap-4">
                       <div className="p-3  rounded-lg">
-                        <AiOutlineFileText size={22} className="text-violet-900" />
+                        <AiOutlineFileText size={22} className="text-indigo-900" />
                       </div>
                       <div>
                         <p className="text-sm truncate max-w-40">{file.name}</p>
@@ -282,8 +282,8 @@ const TaskDetails = ({ task, onClose }) => {
                       <span className="capitalize">
                         {file.user} • {file.time}
                       </span>
-                      <button className="p-2 me-2 hover:bg-violet-900/15 rounded-xl transition-all duration-500">
-                        <LuDownload size={18} className="text-violet-900" />
+                      <button className="p-2 me-2 hover:bg-indigo-900/15 rounded-xl transition-all duration-500">
+                        <LuDownload size={18} className="text-indigo-900" />
                       </button>
                     </div>
                   </div>

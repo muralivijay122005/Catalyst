@@ -205,7 +205,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
   const toggle = (id) => setOpen((prev) => ({ ...prev, [id]: !prev[id] }));
 
   const removeTask = (index) => {
-    if (newTasks.length === 1) return; // Keep at least one task
+    if (newTasks.length === 1) return;
     setNewTasks((prev) => prev.filter((_, idx) => idx !== index));
   };
 
@@ -221,10 +221,10 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
     );
 
   return (
-    <div className="text-sm sf-regular tracking-tight">
+    <div className="text-sm sf-regular tracking-tight pb-2">
       <table className="w-full border-collapse table-fixed">
         <thead>
-          <tr className="text-left border-b border-black/15 opacity-60">
+          <tr className="text-left border-b border-black/15 opacity-75">
             <th className="w-[23%] py-2 px-8 sf-regular ">Task</th>
             <th className="w-[20%] py-2 px-2 sf-regular ">Description</th>
             <th className="w-[10%] py-2 px-2 sf-regular ">Assignee</th>
@@ -250,7 +250,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                   colSpan={canChangePriority ? (isAdmin ? 8 : 7) : 7}
                   className="py-2 px-2"
                 >
-                  <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center gap-2 mt-">
                     {open[g.id] ? <FiChevronDown /> : <FiChevronRight />}
                     <span className="">{g.name}</span>
                   </div>
@@ -264,28 +264,27 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                     due && due < new Date() && t.status !== "Completed";
 
                   return (
-                    <tr key={t._id} className="hover:bg-neutral-100 align-middle">
-                      <td className="px-2 py-2 flex items-center gap-2 ps-4">
+                    <tr 
+                      key={t._id} 
+                      className="hover:bg-neutral-100 align-middle"
+                    >
+                      <td className="px-2 py-1 flex items-center gap-2 ps-4">
                         <RxDragHandleDots2 className="opacity-50" />
                         {truncate(t.name, 20)}
                       </td>
-                      <td className="px-2 py-2 align-middle">
+                      <td className="px-2 py-1 align-middle">
                         {truncate(t.description || "", 20)}
                       </td>
-                      <td className="px-2 py-2 align-middle">
+                      <td className="px-2 py-1 align-middle">
                         {t.assignee?.firstName || "—"}
                       </td>
-                      <td className="px-2 py-2 align-middle">
-                        <span
-                          className={
-                            isOverdue ? "text-red-600 " : ""
-                          }
-                        >
+                      <td className="px-2 py-1 align-middle">
+                        <span className={isOverdue ? "text-red-600 " : ""}>
                           {t.dueDate ? due.toLocaleDateString() : "—"}
                         </span>
                       </td>
                       {canChangePriority && (
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-2 py-1 align-middle">
                           <div
                             className={`flex items-center gap-1 rounded px-2 py-0.5 w-fit ${t.priority === "Urgent"
                               ? "bg-red-600/15"
@@ -315,19 +314,19 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                           </div>
                         </td>
                       )}
-                      <td className="px-2 py-2 align-middle">
+                      <td className="px-2 py-1 align-middle">
                         <span className="block text-center rounded w-fit px-1.5 py-0.5 bg-blue-100 text-blue-800">
                           {t.status}
                         </span>
                       </td>
-                      <td className="px-2 py-2 align-middle">
+                      <td className="px-2 py-1 align-middle">
                         {t.startDate
                           ? new Date(t.startDate).toLocaleDateString()
                           : "—"}
                       </td>
 
                       {isAdmin && (
-                        <td className="px-2 py-2 text-center">
+                        <td className="px-2 py-1 text-center">
                           {t.status === "Ongoing" && (
                             <div className="flex items-center justify-center gap-2">
                               <button
@@ -360,8 +359,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
       {/* ASSIGN TASKS MODAL */}
       {showAssignModal && (
         <div className="fixed inset-0 bg-black/60  flex items-center justify-center z-50">
-          <div className="bg-white custom-scroll p-8 rounded-xl shadow-2xl w-[700px] max-h-screen overflow-y-auto relative">
-            {/* Close X Button - Top Right of Modal */}
+          <div className="bg-white custom-scroll p-8 rounded-xl w-[700px] max-h-screen overflow-y-auto relative">
             <button
               onClick={() => setShowAssignModal(false)}
               className="absolute border border-neutral-300  rounded-full p-1 top-6 right-6 text-black hover:bg-neutral-100 transition"
@@ -380,11 +378,8 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
 
             {newTasks.map((task, i) => (
               <div key={i} className="border border-neutral-200  p-4 rounded-lg mb-4 relative">
-                {/* Task Title + Bin Button */}
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm">Task {i + 1}</h3>
-
-                  {/* Delete Bin Button */}
                   {newTasks.length > 1 && (
                     <button
                       onClick={() => removeTask(i)}

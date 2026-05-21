@@ -96,7 +96,7 @@ const Inbox = () => {
             }
             
             parts.push(
-                <span key={matchIndex} className="text-violet-700 p-1 py-0.5 rounded">
+                <span key={matchIndex} className="text-indigo-700 p-1 py-0.5 rounded">
                     {matchText}
                 </span>
             );
@@ -678,7 +678,7 @@ const Inbox = () => {
                                                     selectMember(member);
                                                 }}
                                                 className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors ${
-                                                    isSelected ? "bg-violet-50 text-violet-700 " : "hover:bg-neutral-50 text-neutral-700"
+                                                    isSelected ? "bg-indigo-50 text-indigo-700 " : "hover:bg-neutral-50 text-neutral-700"
                                                 }`}
                                             >
                                                 <InitialAvatar name={member.firstName} size={28} />
@@ -693,7 +693,7 @@ const Inbox = () => {
                                                     )}
                                                 </div>
                                                 {isSelected && (
-                                                    <span className="text-xs bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
+                                                    <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
                                                         Press Enter
                                                     </span>
                                                 )}

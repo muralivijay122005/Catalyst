@@ -71,7 +71,7 @@ const Timeline = () => {
 
   // Random Tasks
   const taskNames = ["Design", "API", "Review", "Test", "Deploy"];
-  const colors = ["violet", "yellow", "green"];
+  const colors = ["indigo", "yellow", "green"];
 
   const taskData = React.useMemo(() => {
     const data = {};
@@ -92,7 +92,7 @@ const Timeline = () => {
   }, [selectedScale]);
 
   const colorClasses = {
-    violet: "bg-violet-500",
+    indigo: "bg-indigo-500",
     yellow: "bg-yellow-500",
     green: "bg-green-500",
   };

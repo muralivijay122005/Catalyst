@@ -1149,7 +1149,7 @@ const {
             { channelId: generalChannel._id, sender: users[0]._id, text: "Welcome to Catalyst everyone! Let's get started on the new sprint." },
             { channelId: generalChannel._id, sender: users[1]._id, text: "Excited to be here! The design system is looking great." },
             { channelId: designChannel._id, sender: users[1]._id, text: "Hey Sarah, I've updated the figma files with the new palette." },
-            { channelId: designChannel._id, sender: users[5]._id, text: "Checking them now! Love the violet accents." },
+            { channelId: designChannel._id, sender: users[5]._id, text: "Checking them now! Love the indigo accents." },
             { channelId: devChannel._id, sender: users[2]._id, text: "The API gateway is now supporting JWT auth. Check the docs." },
             { channelId: devChannel._id, sender: users[3]._id, text: "Awesome, I'll start the frontend integration today." },
         ];

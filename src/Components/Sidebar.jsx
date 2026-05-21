@@ -6,13 +6,13 @@ import {
   HiPlus,
 } from "react-icons/hi";
 import { GoBook } from "react-icons/go";
-import { RxDashboard } from "react-icons/rx";
+import { LuChartLine } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchProjects } from "../BACKEND/utils/api";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
-const Sidebar = ({ onSelect, onInboxClick, onDashboardClick }) => {
+const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
   const { currentUser } = useAuth();
   const isAdmin = currentUser?.role === "admin";
 
@@ -201,6 +201,7 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick }) => {
 
         if (item === "Inbox") onInboxClick();
         if (item === "Dashboard") onDashboardClick();
+        if (item === "Docs") onDocsClick();
       }}
       className={`flex items-center gap-2 cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 transition ${
         selectedItem === item ? "bg-neutral-300" : ""
@@ -208,11 +209,11 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick }) => {
     >
       {/* Fixed Icon Width */}
       <div className="w-5 flex items-center justify-center">
-        {item === "Dashboard" && <RxDashboard size={18} />}
+        {item === "Dashboard" && <LuChartLine size={16} />}
         {item === "Inbox" && (
           <HiOutlineInboxIn size={20} strokeWidth={1.5} />
         )}
-        {item === "Docs" && <GoBook size={18} strokeWidth={0.5} />}
+        {item === "Docs" && <GoBook size={16} strokeWidth={0.25} />}
       </div>
 
       <span className="truncate">{item}</span>

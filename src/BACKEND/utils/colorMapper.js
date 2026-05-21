@@ -1,7 +1,7 @@
 // src/utils/colorMapper.js
 
 const TASK_COLORS = [
-  "violet",
+  "indigo",
   "sky",
   "pink",
   "yellow",
@@ -42,7 +42,7 @@ export const getTaskColor = (taskName, fallbackIndex = 0) => {
  */
 export const getColorClasses = (color) => {
   const map = {
-    violet: "bg-violet-500/20 border-l-4 border-violet-600 text-violet-900",
+    indigo: "bg-indigo-500/20 border-l-4 border-indigo-600 text-indigo-900",
     sky: "bg-sky-500/20 border-l-4 border-sky-600 text-sky-900",
     pink: "bg-pink-500/20 border-l-4 border-pink-600 text-pink-900",
     yellow: "bg-yellow-500/20 border-l-4 border-yellow-600 text-yellow-900",
@@ -56,5 +56,5 @@ export const getColorClasses = (color) => {
     lime: "bg-lime-500/20 border-l-4 border-lime-600 text-lime-900",
   };
 
-  return map[color] || map.violet;
+  return map[color] || map.indigo;
 };

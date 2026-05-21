@@ -107,21 +107,21 @@ const PendingApproval = ({ projectId, moduleId, taskGroupId }) => {
 
   if (loading)
     return (
-      <div className="text-center py-8 text-neutral-500">Loading pending tasks...</div>
+      <div className="text-center py-8 text-neutral-700">Loading pending tasks...</div>
     );
 
   if (groups.length === 0)
     return (
-      <div className="text-center py-8 text-neutral-500">
+      <div className="text-center py-8 text-neutral-700">
         No pending tasks
       </div>
     );
 
   return (
-    <div className="text-sm sf-regular tracking-tight">
-      <table className="w-full border-collapse table-fixed">
+    <div className="text-sm sf-regular tracking-tight pb-2">
+      <table className="w-full border-collapse table-fixed ">
         <thead>
-          <tr className="text-left border-b border-black/15 opacity-60">
+          <tr className="text-left border-b border-black/15 opacity-75">
             <th className="w-[23%] py-2 px-8 sf-regular">Task</th>
             <th className="w-[20%] py-2 px-2 sf-regular">Description</th>
             <th className="w-[10%] py-2 px-2 sf-regular">Assignee</th>
@@ -146,7 +146,7 @@ const PendingApproval = ({ projectId, moduleId, taskGroupId }) => {
                   colSpan={isAdmin ? 8 : 7}
                   className="py-2 px-2"
                 >
-                  <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center gap-2">
                     {open[g.id] ? <FiChevronDown /> : <FiChevronRight />}
                     <span className="">{g.name}</span>
                   </div>
@@ -157,22 +157,22 @@ const PendingApproval = ({ projectId, moduleId, taskGroupId }) => {
               {open[g.id] &&
                 g.items.map((t) => (
                   <tr key={t._id} className="hover:bg-neutral-100 align-middle">
-                    <td className="px-2 py-2 flex items-center gap-2 ps-4">
+                    <td className="px-2 py-1 flex items-center gap-2 ps-4">
                       <RxDragHandleDots2 className="opacity-50" />
                       {truncate(t.name, 20)}
                     </td>
-                    <td className="px-2 py-2 align-middle">
+                    <td className="px-2 py-1 align-middle">
                       {truncate(t.description || "", 20)}
                     </td>
-                    <td className="px-2 py-2 align-middle">
+                    <td className="px-2 py-1 align-middle">
                       {t.assignee?.firstName || t.assignee?.name || "—"}
                     </td>
-                    <td className="px-2 py-2 align-middle">
+                    <td className="px-2 py-1 align-middle">
                       {t.dueDate
                         ? new Date(t.dueDate).toLocaleDateString()
                         : "—"}
                     </td>
-                    <td className="px-2 py-2 align-middle">
+                    <td className="px-2 py-1 align-middle">
                       <div
                         className={`flex items-center gap-1 rounded px-2 py-0.5 w-fit ${t.priority === "High" || t.priority === "Urgent"
                           ? "bg-red-600/15"
@@ -201,19 +201,19 @@ const PendingApproval = ({ projectId, moduleId, taskGroupId }) => {
                         </span>
                       </div>
                     </td>
-                    <td className="px-2 py-2 align-middle">
+                    <td className="px-2 py-1 align-middle">
                       <span className="block text-center rounded w-fit px-1.5 py-0.5 bg-blue-100 text-blue-800">
                         Pending
                       </span>
                     </td>
-                    <td className="px-2 py-2 align-middle">
+                    <td className="px-2 py-1 align-middle">
                       {t.startDate
                         ? new Date(t.startDate).toLocaleDateString()
                         : "—"}
                     </td>
 
                     {isAdmin && (
-                      <td className="px-2 py-2 text-center">
+                      <td className="px-2 py-1 text-center">
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => updateStatus(t._id, "Ongoing")}
