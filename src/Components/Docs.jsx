@@ -574,7 +574,7 @@ const Docs = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-slate-50/50 text-slate-800 antialiased font-sans select-none overflow-hidden rounded-lg">
+    <div className="flex h-full w-full sf-regular bg-slate-50/50 text-slate-800 antialiased font-sans select-none overflow-hidden rounded-lg">
       
       {/* 1. DOCUMENT INDEX PANEL (Left sidebar inside docs) */}
       <div className="w-[30%] min-w-[280px] max-w-[360px] border-r border-slate-200 bg-white flex flex-col h-full shrink-0">

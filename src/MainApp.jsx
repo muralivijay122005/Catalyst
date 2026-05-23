@@ -202,7 +202,7 @@ const MainApp = () => {
                       <div className="flex flex-col gap-6">
                         <div>
                           <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-1 text-sm p-1 px-2 rounded-md border border-indigo-700/40 text-indigo-900 bg-indigo-500/15">
+                            <div className="flex items-center gap-1 text-sm p-1 px-2 rounded-md border border-purple-700/40 text-purple-900 bg-purple-500/15">
                               <TbProgress size={16} />
                               In Progress
                             </div>
@@ -214,7 +214,7 @@ const MainApp = () => {
                                   });
                                   window.dispatchEvent(event);
                                 }}
-                                className="bg-white text-black text-sm ps-2 pe-3 py-1 border border-neutral-300 rounded-md flex items-center gap-1 hover:bg-neutral-100 transition"
+                                className=" text-black text-sm ps-2.5 pe-3.5 py-1.25 bg-white border border-neutral-200 rounded-md flex items-center gap-1 hover:bg-neutral-100 transition"
                               >
                                 <FiPlus size={16} strokeWidth={1.5} />
                                 Assign Tasks

@@ -218,7 +218,7 @@ const PendingApproval = ({ projectId, moduleId, taskGroupId }) => {
                           <button
                             onClick={() => updateStatus(t._id, "Ongoing")}
                             className="bg-white text-black w-6 h-6 rounded flex items-center justify-center
-                                       hover:bg-neutral-100 border border-neutral-200 transition"
+                                       hover:bg-neutral-200 border border-neutral-200 transition"
                           >
                             <FaCheck size={10} className="leading-none" />
                           </button>
@@ -226,7 +226,7 @@ const PendingApproval = ({ projectId, moduleId, taskGroupId }) => {
                           <button
                             onClick={() => updateStatus(t._id, "Halted")}
                             className="bg-white text-black w-6 h-6 rounded flex items-center justify-center
-                                       hover:bg-neutral-100 border border-neutral-200 transition"
+                                       hover:bg-neutral-200 border border-neutral-200 transition"
                           >
                             <RxCross2 size={12} className="leading-none" />
                           </button>

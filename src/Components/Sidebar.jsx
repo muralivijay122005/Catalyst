@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import {
   HiOutlineFolder,
   HiOutlineInboxIn,
-  HiPlus,
+  HiPlus,  // ← New import for close button
 } from "react-icons/hi";
+import { MdOutlineEditCalendar } from "react-icons/md";
 import { GoBook } from "react-icons/go";
 import { LuChartLine } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchProjects } from "../BACKEND/utils/api";
 import axios from "axios";
+import { RxCross2 } from "react-icons/rx";
 import { useAuth } from "../context/AuthContext";
 
 const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
@@ -50,7 +52,6 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
       setProjects(data);
       setOpenProjects(openState);
 
-      // Auto-select first module if available
       if (data.length > 0 && data[0].modules?.length > 0) {
         const firstProject = data[0];
         const firstModule = firstProject.modules[0];
@@ -69,10 +70,9 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
       console.error("Failed to load projects:", err);
       setError(err.message || "Failed to load projects. Please log in again.");
 
-      // Optional: Auto clear invalid token on auth error
       if (err.message?.toLowerCase().includes("token") ||
-        err.message?.toLowerCase().includes("unauthorized") ||
-        err.message?.toLowerCase().includes("forbidden")) {
+          err.message?.toLowerCase().includes("unauthorized") ||
+          err.message?.toLowerCase().includes("forbidden")) {
         localStorage.removeItem("token");
       }
     } finally {
@@ -106,69 +106,44 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
 
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No authentication token found. Please log in again.");
-      }
+      if (!token) throw new Error("No authentication token found.");
 
-      // Create Project
       const projRes = await axios.post(
         "http://localhost:5000/api/projects",
-        {
-          name: newProjectName.trim(),
-          description: "Created via Catalyst",
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { name: newProjectName.trim(), description: "Created via Catalyst" },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const projectId = projRes.data._id;
 
-      // Create Modules
       for (const name of validModules) {
         await axios.post(
           "http://localhost:5000/api/modules",
-          {
-            name: name.trim(),
-            description: `${name.trim()} module`,
-            projectId,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { name: name.trim(), description: `${name.trim()} module`, projectId },
+          { headers: { Authorization: `Bearer ${token}` } }
         );
       }
 
       alert("Project and modules created successfully! 🎉");
-
-      // Reset form and reload projects
       setShowAddProject(false);
       setNewProjectName("");
       setModuleNames(["", "", "", ""]);
-      loadProjects(); // Refresh sidebar
+      loadProjects();
     } catch (err) {
       console.error(err);
       if (err.response?.status === 403 || err.message?.includes("token")) {
-        alert("Session expired or unauthorized. Please log in again.");
+        alert("Session expired. Please log in again.");
         localStorage.removeItem("token");
-        window.location.reload(); // Force re-login
+        window.location.reload();
       } else {
-        alert(err.response?.data?.message || "Failed to create project. Only Admins can create projects.");
+        alert(err.response?.data?.message || "Failed to create project.");
       }
     }
   };
 
   const buildVirtualGroups = (module) => {
-    const inProgress = {
-      _id: `${module._id}-inprogress`,
-      title: "In Progress",
-      tasks: [],
-    };
-    const pending = {
-      _id: `${module._id}-pending`,
-      title: "Pending Approval",
-      tasks: [],
-    };
+    const inProgress = { _id: `${module._id}-inprogress`, title: "In Progress", tasks: [] };
+    const pending = { _id: `${module._id}-pending`, title: "Pending Approval", tasks: [] };
 
     (module.taskGroups || []).forEach((group) => {
       (group.subtasks || []).forEach((task) => {
@@ -192,41 +167,35 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
         </div>
 
         {/* Navigation */}
-<div className="flex flex-col gap-1">
-  {["Dashboard", "Inbox", "Docs"].map((item) => (
-    <div
-      key={item}
-      onClick={() => {
-        setSelectedItem(item);
+        <div className="flex flex-col gap-1">
+          {["Dashboard", "Inbox", "Docs"].map((item) => (
+            <div
+              key={item}
+              onClick={() => {
+                setSelectedItem(item);
+                if (item === "Inbox") onInboxClick();
+                if (item === "Dashboard") onDashboardClick();
+                if (item === "Docs") onDocsClick();
+              }}
+              className={`flex items-center gap-2 cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 transition ${
+                selectedItem === item ? "bg-neutral-300" : ""
+              }`}
+            >
+              <div className="w-5 flex items-center justify-center">
+                {item === "Dashboard" && <LuChartLine size={16} />}
+                {item === "Inbox" && <HiOutlineInboxIn size={20} strokeWidth={1.5} />}
+                {item === "Docs" && <GoBook size={16} strokeWidth={0.25} />}
+              </div>
+              <span className="truncate">{item}</span>
+            </div>
+          ))}
 
-        if (item === "Inbox") onInboxClick();
-        if (item === "Dashboard") onDashboardClick();
-        if (item === "Docs") onDocsClick();
-      }}
-      className={`flex items-center gap-2 cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 transition ${
-        selectedItem === item ? "bg-neutral-300" : ""
-      }`}
-    >
-      {/* Fixed Icon Width */}
-      <div className="w-5 flex items-center justify-center">
-        {item === "Dashboard" && <LuChartLine size={16} />}
-        {item === "Inbox" && (
-          <HiOutlineInboxIn size={20} strokeWidth={1.5} />
-        )}
-        {item === "Docs" && <GoBook size={16} strokeWidth={0.25} />}
-      </div>
-
-      <span className="truncate">{item}</span>
-    </div>
-  ))}
-
-  <hr className="opacity-25 mt-2" />
-
-  <p className="ms-2 mt-2 text-neutral-600">My Workspace</p>
+          <hr className="opacity-25 mt-2" />
+          <p className="ms-2 mt-2 text-neutral-600">My Workspace</p>
 
           {/* Projects Section */}
           {loading ? (
-            <div className="ps-3">Loading projects</div>
+            <div className="ps-3">Loading projects...</div>
           ) : error ? (
             <div className="text-red-500 ps-3 text-xs">{error}</div>
           ) : projects.length === 0 ? (
@@ -245,8 +214,7 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
                     </div>
                     <IoIosArrowDown
                       size={14}
-                      className={`transition-transform ${openProjects[proj._id] ? "rotate-180" : ""
-                        }`}
+                      className={`transition-transform ${openProjects[proj._id] ? "rotate-180" : ""}`}
                     />
                   </div>
 
@@ -257,11 +225,10 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
                         return (
                           <li key={mod._id}>
                             <div
-                              onClick={() =>
-                                selectModule(proj._id, mod._id, proj.name, mod.name)
-                              }
-                              className={`flex items-center cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 ${selectedItem === mod._id ? "bg-neutral-300" : ""
-                                }`}
+                              onClick={() => selectModule(proj._id, mod._id, proj.name, mod.name)}
+                              className={`flex items-center cursor-pointer hover:bg-neutral-300 rounded-md px-2 py-1 ${
+                                selectedItem === mod._id ? "bg-neutral-300" : ""
+                              }`}
                             >
                               <span className="truncate w-32">{mod.name}</span>
                             </div>
@@ -281,8 +248,9 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
                                         vg.title
                                       )
                                     }
-                                    className={`cursor-pointer hover:bg-neutral-300 rounded-md p-1 ps-2 my-0.5 truncate text-xs ${selectedItem === vg._id ? "bg-neutral-300" : ""
-                                      }`}
+                                    className={`cursor-pointer hover:bg-neutral-300 rounded-md p-1 ps-2 my-0.5 truncate text-xs ${
+                                      selectedItem === vg._id ? "bg-neutral-300" : ""
+                                    }`}
                                   >
                                     {vg.title} ({vg.tasks.length})
                                   </li>
@@ -307,26 +275,46 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
           onClick={() => setShowAddProject(true)}
           className="flex items-center gap-4 bg-black text-white p-1.5 rounded-md hover:bg-neutral-800 transition mt-4"
         >
-          <HiPlus size={18} className=" rounded-sm bg-neutral-800 text-white w-6 h-6 p-1" />
+          <HiPlus size={18} className="rounded-sm bg-neutral-800 text-white w-6 h-6 p-1" />
           Add Project
         </button>
       )}
 
-      {/* Add Project Modal */}
+      {/* ================= IMPROVED CREATE PROJECT MODAL ================= */}
       {showAddProject && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-xl shadow-2xl w-96">
-            <h2 className="mb-6">Create New Project</h2>
+          <div className="bg-white p-6 rounded-2xl w-140 max-w-lg">
+            
+            {/* Modal Header with Icon + Close Button */}
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2">
+                
+                <MdOutlineEditCalendar size={18}/>
+                <h2 className="text-sm">Create New Project</h2>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setShowAddProject(false);
+                  setNewProjectName("");
+                  setModuleNames(["", "", "", ""]);
+                }}
+                className="hover:bg-neutral-300 bg-neutral-200 rounded-lg transition-all p-1"
+              >
+                <RxCross2 size={16} />
+              </button>
+            </div>
 
             <input
               type="text"
               placeholder="Project Name (Required)"
               value={newProjectName}
               onChange={(e) => setNewProjectName(e.target.value)}
-              className="w-full px-4 py-3 border border-neutral-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full px-4 py-2 bg-neutral-100 rounded-lg mb-4 focus:outline-none"
             />
 
-            <p className="text-sm text-neutral-600 mb-3">Add up to 4 modules:</p>
+            <p className="text-sm mb-3">Add up to 4 modules:</p>
 
             {moduleNames.map((name, i) => (
               <input
@@ -339,14 +327,14 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
                   updated[i] = e.target.value;
                   setModuleNames(updated);
                 }}
-                className="w-full px-4 py-3 border border-neutral-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full px-4 py-2 bg-neutral-100 rounded-lg mb-3 focus:outline-none"
               />
             ))}
 
             <div className="flex gap-3 mt-6">
               <button
                 onClick={handleCreateProject}
-                className="flex-1 bg-black text-white py-3 rounded-lg hover:bg-neutral-800 transition"
+                className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-neutral-950 transition"
               >
                 Create Project
               </button>
@@ -356,7 +344,7 @@ const Sidebar = ({ onSelect, onInboxClick, onDashboardClick, onDocsClick }) => {
                   setNewProjectName("");
                   setModuleNames(["", "", "", ""]);
                 }}
-                className="flex-1 border border-neutral-400 py-3 rounded-lg hover:bg-neutral-100 transition"
+                className="flex-1 bg-neutral-200 py-2 rounded-lg hover:bg-neutral-300 transition"
               >
                 Cancel
               </button>

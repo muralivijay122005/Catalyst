@@ -1,12 +1,14 @@
 // src/Components/InProgress.jsx
 import React, { useState, useEffect } from "react";
 import { RxDragHandleDots2 } from "react-icons/rx";
-import { IoTrashOutline } from "react-icons/io5";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { fetchTasks, fetchUsers } from "../BACKEND/utils/api";
 import { useAuth } from "../context/AuthContext";
+import { MdOutlineEditCalendar } from "react-icons/md";
+import { GoPlus } from "react-icons/go";
+import { IoIosRemove } from "react-icons/io";
 
 const truncate = (t, l) => (t?.length <= l ? t : t?.slice(0, l) + "...");
 
@@ -332,7 +334,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                               <button
                                 onClick={() => updateStatus(t._id, "Completed")}
                                 className="bg-white text-black w-6 h-6 rounded flex items-center justify-center
-                                           hover:bg-neutral-100 border border-neutral-200 transition"
+                                           hover:bg-neutral-200 border border-neutral-200 transition"
                               >
                                 <FaCheck size={10} className="leading-none" />
                               </button>
@@ -340,7 +342,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                               <button
                                 onClick={() => updateStatus(t._id, "Halted")}
                                 className="bg-white text-black w-6 h-6 rounded flex items-center justify-center
-                                           hover:bg-neutral-100 border border-neutral-200 transition"
+                                           hover:bg-neutral-200 border border-neutral-200 transition"
                               >
                                 <RxCross2 size={12} className="leading-none" />
                               </button>
@@ -359,21 +361,22 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
       {/* ASSIGN TASKS MODAL */}
       {showAssignModal && (
         <div className="fixed inset-0 bg-black/60  flex items-center justify-center z-50">
-          <div className="bg-white custom-scroll p-8 rounded-xl w-[700px] max-h-screen overflow-y-auto relative">
+          <div className="bg-white custom-scroll-hidden p-6 rounded-xl w-[600px] max-h-[90%] overflow-y-auto relative">
             <button
               onClick={() => setShowAssignModal(false)}
-              className="absolute border border-neutral-300  rounded-full p-1 top-6 right-6 text-black hover:bg-neutral-100 transition"
+              className="absolute  rounded-lg p-1 top-6 right-6 text-black bg-neutral-200 hover:bg-neutral-300 transition"
             >
               <RxCross2 size={16} />
-            </button>
-
-            <h2 className="text-md mb-6">Assign New Tasks</h2>
+            </button> <div className="flex gap-2 items-center mb-6"> 
+            <MdOutlineEditCalendar size={18}/>  
+            <h2 className="text-md ">Assign New Tasks</h2>
+            </div>
 
             <input
               placeholder="Task Group Title"
               value={newGroupTitle}
               onChange={(e) => setNewGroupTitle(e.target.value)}
-              className="w-full px-4 py-2 bg-neutral-200 rounded-md mb-6 placeholder-neutral-700 focus:outline-none"
+              className="w-full px-4 py-2 bg-neutral-100 rounded-md mb-6 placeholder-neutral-700 focus:outline-none"
             />
 
             {newTasks.map((task, i) => (
@@ -383,11 +386,11 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                   {newTasks.length > 1 && (
                     <button
                       onClick={() => removeTask(i)}
-                      className="border border-neutral-300 hover:border-red-400 text-red-500 hover:text-red-600 
-                                 p-1.5 rounded transition-all"
+                      className="bg-neutral-200 hover:bg-neutral-300
+                                 p-1 rounded-lg transition-all"
                       title="Remove this task"
                     >
-                      <IoTrashOutline size={16} />
+                      <IoIosRemove size={16} />
                     </button>
                   )}
                 </div>
@@ -400,7 +403,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                     updated[i].name = e.target.value;
                     setNewTasks(updated);
                   }}
-                  className="w-full px-3 py-2 bg-neutral-200 rounded mb-2 placeholder-neutral-700 focus:outline-none"
+                  className="w-full px-3 py-2 bg-neutral-100 rounded mb-2 placeholder-neutral-700 focus:outline-none"
                 />
                 <textarea
                   placeholder="Description"
@@ -410,7 +413,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                     updated[i].description = e.target.value;
                     setNewTasks(updated);
                   }}
-                  className="w-full px-3 py-2 bg-neutral-200 rounded mb-2 placeholder-neutral-700 focus:outline-none"
+                  className="w-full px-3 py-2 bg-neutral-100 rounded mb-2 placeholder-neutral-700 focus:outline-none"
                 />
                 <select
                   value={task.assignee}
@@ -419,7 +422,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                     updated[i].assignee = e.target.value;
                     setNewTasks(updated);
                   }}
-                  className="w-full px-3 py-2 bg-neutral-200 rounded mb-2 placeholder-neutral-700 focus:outline-none"
+                  className="w-full px-3 py-2 bg-neutral-100 rounded mb-2 placeholder-neutral-700 focus:outline-none"
                 >
                   <option value="">Select Assignee</option>
                   {users.map((u) => (
@@ -436,7 +439,7 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                     updated[i].dueDate = e.target.value;
                     setNewTasks(updated);
                   }}
-                  className="w-full px-3 py-2 bg-neutral-200 rounded mb-2 placeholder-neutral-700 focus:outline-none"
+                  className="w-full px-3 py-2 bg-neutral-100 rounded mb-2 placeholder-neutral-700 focus:outline-none"
                 />
               </div>
             ))}
@@ -457,22 +460,22 @@ const InProgress = ({ projectId, moduleId, taskGroupId }) => {
                     },
                   ])
                 }
-                className="text-sm hover:underline mb-4"
+                className="flex flex-row gap-1 items-center text-sm text-amber-800 border border-amber-500/50 bg-amber-600/20 hover:bg-amber-500/30 py-1.5 ps-2 pr-3 rounded-lg mb-4"
               >
-                + Add Task (Max 6)
+                <GoPlus size={18} /> Add Task (Max 6)
               </button>
             )}
 
             <div className="flex gap-4">
               <button
                 onClick={handleAssignTasks}
-                className="flex-1 bg-black text-white py-2 rounded-md"
+                className="flex-1 bg-black hover:bg-neutral-950 text-white py-2 rounded-lg"
               >
                 Create {newTasks.length} Tasks
               </button>
               <button
                 onClick={() => setShowAssignModal(false)}
-                className="flex-1 bg-neutral-300 py-2 rounded-md"
+                className="flex-1 bg-neutral-200 hover:bg-neutral-300 py-2 rounded"
               >
                 Cancel
               </button>
