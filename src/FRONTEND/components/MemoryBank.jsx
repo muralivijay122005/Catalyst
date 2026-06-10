@@ -1,0 +1,1 @@
+// Dedicated section with Groq-powered summarization UI
