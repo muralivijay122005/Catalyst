@@ -283,18 +283,18 @@ const Docs = () => {
     
     // Escape simple HTML characters first to make parsing safe
     let html = text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/&/g, "&")
+      .replace(/</g, "<")
+      .replace(/>/g, ">");
 
-    // Re-allow blockquote markers &gt; for parsing
-    html = html.replace(/^&gt; (.*)$/gm, "> $1");
+    // Re-allow blockquote markers > for parsing
+    html = html.replace(/^> (.*)$/gm, "> $1");
 
     // 1. Process custom GitHub-style notice blocks / callouts
     // Pattern: > [!NOTE] or > [!TIP] etc.
-    const calloutRegex = /^&gt;\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n([\s\S]*?)(?=(?:^&gt; [!|\n]|\n\n|\n*$))/gm;
+    const calloutRegex = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n([\s\S]*?)(?=(?:^> [!|\n]|\n\n|\n*$))/gm;
     html = html.replace(calloutRegex, (match, type, content) => {
-      const cleanContent = content.replace(/^&gt;\s?/gm, "").trim();
+      const cleanContent = content.replace(/^>\s?/gm, "").trim();
       let alertClass = "";
       let icon = null;
       let title = type;
@@ -335,7 +335,7 @@ const Docs = () => {
     });
 
     // 2. Standard blockquotes
-    html = html.replace(/^&gt;\s?(.*)$/gm, '<blockquote class="border-l-4 border-slate-300 pl-4 py-1 my-3 text-slate-600 italic font-medium bg-slate-50/50 rounded-r">$1</blockquote>');
+    html = html.replace(/^>\s?(.*)$/gm, '<blockquote class="border-l-4 border-slate-300 pl-4 py-1 my-3 text-slate-600 italic font-medium bg-slate-50/50 rounded-r">$1</blockquote>');
 
     // 3. Code Blocks: ```language ... ```
     // We capture code blocks carefully and render a code component mock with copy action
@@ -347,7 +347,7 @@ const Docs = () => {
       const cleanCode = code.trim();
       codeBlocks.push({ id: codeId, code: cleanCode });
       
-      return `<div class="my-5 rounded-lg border border-neutral-700 bg-neutral-900 text-neutral-100 overflow-hidden shadow-md">
+      return `<div class="my-5 rounded-xl border border-neutral-700 bg-neutral-900 text-neutral-100 overflow-hidden shadow-md">
         <div class="flex items-center justify-between px-4 py-2 bg-neutral-800 text-xs text-neutral-400 select-none">
           <span class="font-mono uppercase tracking-widest text-[10px] font-semibold text-neutral-300">${language}</span>
           <button 
@@ -376,7 +376,7 @@ const Docs = () => {
         return row.split('|').map(r => r.trim()).filter(r => r);
       });
 
-      let tableHtml = `<div class="my-5 overflow-x-auto rounded-lg border border-neutral-200 shadow-sm"><table class="w-full text-sm text-left text-neutral-600">`;
+      let tableHtml = `<div class="my-5 overflow-x-auto rounded-xl border border-neutral-200 shadow-sm"><table class="w-full text-sm text-left text-neutral-600">`;
       
       // Header
       tableHtml += `<thead class="text-xs text-neutral-700 uppercase bg-neutral-50 font-bold select-none"><tr>`;
@@ -574,73 +574,74 @@ const Docs = () => {
   };
 
   return (
-    <div className="flex h-full w-full sf-regular bg-slate-50/50 text-slate-800 antialiased font-sans select-none overflow-hidden rounded-lg">
+    <div className="flex h-full w-full sf-regular bg-slate-50 text-slate-800 antialiased font-sans select-none overflow-hidden rounded-2xl shadow-inner">
       
       {/* 1. DOCUMENT INDEX PANEL (Left sidebar inside docs) */}
-      <div className="w-[30%] min-w-[280px] max-w-[360px] border-r border-slate-200 bg-white flex flex-col h-full shrink-0">
+      <div className="w-[30%] min-w-[280px] max-w-[360px] border-r border-slate-200 bg-white flex flex-col h-full shrink-0 shadow-sm">
         
         {/* Search & Action bar */}
-        <div className="p-4 pb-3 flex flex-col gap-3">
+        <div className="p-5 pb-4 flex flex-col gap-3 border-b border-slate-100">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                <FiBookOpen size={16} />
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow">
+                <FiBookOpen size={18} />
               </div>
-              <span className="font-bold text-base tracking-tight text-slate-800">Catalyst Docs</span>
+              <div>
+                <span className="font-bold text-lg tracking-tight text-slate-900">Catalyst Docs</span>
+                <p className="text-[10px] text-slate-500 -mt-0.5">Knowledge Base</p>
+              </div>
             </div>
             
             <button
               onClick={startCreate}
-              className="group flex items-center justify-center gap-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3 rounded-md transition duration-200 shadow-sm hover:shadow"
+              className="group flex items-center justify-center gap-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl transition-all duration-200 shadow hover:shadow-md active:scale-[0.985]"
             >
-              <FiPlus size={14} className="group-hover:scale-110 transition" />
-              <span>Create Doc</span>
+              <FiPlus size={16} className="group-hover:rotate-90 transition" />
+              New Doc
             </button>
           </div>
 
           <div className="relative">
-            <FiSearch className="absolute left-3 top-3 text-slate-400" size={14} />
+            <FiSearch className="absolute left-4 top-3.5 text-slate-400" size={16} />
             <input
               type="text"
-              placeholder="Search wiki articles..."
+              placeholder="Search documents..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-100 border-none outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 rounded-lg py-2 pl-9 pr-4 text-xs placeholder-slate-400 transition"
+              className="w-full bg-slate-100 border border-slate-200 focus:border-indigo-400 outline-none focus:bg-white rounded-2xl py-3 pl-11 pr-4 text-sm placeholder-slate-400 transition-all"
             />
           </div>
         </div>
 
-        {/* Categories Carousel / Tabs */}
-        <div className="px-4 pb-2">
-          <div className="flex gap-1 overflow-x-auto py-1 scrollbar-thin scrollbar-thumb-slate-200 custom-scroll-hidden select-none">
+        {/* Categories Tabs */}
+        <div className="px-5 pt-4 pb-3 border-b border-slate-100">
+          <div className="flex gap-1.5 overflow-x-auto py-1 scrollbar-thin scrollbar-thumb-slate-200 hide-scroll select-none">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`text-[10px] uppercase font-bold tracking-wider px-2.5 py-1.5 rounded-full shrink-0 transition duration-150 ${
+                className={`text-xs font-semibold tracking-widest px-4 py-2 rounded-2xl whitespace-nowrap transition-all ${
                   selectedCategory === cat
-                    ? "bg-slate-900 text-white"
-                    : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                    ? "bg-slate-900 text-white shadow"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-600"
                 }`}
               >
-                {cat.includes(" ") ? cat.split(" ")[1] : cat}
+                {cat}
               </button>
             ))}
           </div>
         </div>
 
         {/* List of articles */}
-        <div className="flex-1 overflow-y-auto px-2 pb-4 scrollbar-thin select-none">
+        <div className="flex-1 overflow-y-auto px-3 py-3 scrollbar-thin select-none">
           {filteredDocs.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 px-4 text-center">
-              <FiFolderMinus className="text-slate-300 mb-2" size={32} />
-              <p className="text-xs font-semibold text-slate-500">No documents found</p>
-              <p className="text-[10px] text-slate-400 mt-1 max-w-[180px]">
-                Create a new article or search another term.
-              </p>
+            <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+              <FiFolderMinus className="text-slate-300 mb-3" size={40} />
+              <p className="text-sm font-medium text-slate-500">No matches</p>
+              <p className="text-xs text-slate-400 mt-1">Try different keywords or create new</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-1 mt-2">
+            <div className="flex flex-col gap-1.5">
               {filteredDocs.map((doc) => {
                 const isSelected = selectedDoc && selectedDoc.id === doc.id;
                 return (
@@ -651,27 +652,26 @@ const Docs = () => {
                       setIsEditing(false);
                       setIsCreating(false);
                     }}
-                    className={`group flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+                    className={`group flex items-start gap-3 p-4 rounded-2xl cursor-pointer transition-all duration-200 border ${
                       isSelected
-                        ? "bg-indigo-50/70 border-l-4 border-indigo-600 text-slate-900"
-                        : "hover:bg-slate-50 text-slate-600 hover:text-slate-800"
+                        ? "bg-indigo-50 border-indigo-200 shadow-sm"
+                        : "hover:bg-slate-50 border-transparent hover:border-slate-100"
                     }`}
                   >
-                    <span className="text-lg mt-0.5 select-none">{doc.icon || "📄"}</span>
-                    <div className="flex-1 min-w-0">
-                      <h4 className={`text-xs font-bold truncate ${isSelected ? "text-indigo-900" : "text-slate-800"}`}>
+                    <div className="text-2xl mt-0.5 flex-shrink-0">{doc.icon || "📄"}</div>
+                    <div className="flex-1 min-w-0 pt-0.5">
+                      <h4 className={`font-semibold text-sm truncate leading-tight ${isSelected ? "text-indigo-900" : "text-slate-800"}`}>
                         {doc.title}
                       </h4>
-                      <p className="text-[10px] text-slate-400 truncate mt-0.5">
-                        {doc.description || "No description provided."}
+                      <p className="text-xs text-slate-500 line-clamp-2 mt-1 pr-2">
+                        {doc.description || "No description"}
                       </p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className="text-[9px] font-bold text-slate-400 bg-slate-100 py-0.5 px-1.5 rounded uppercase tracking-wider">
-                          {doc.category.replace(/[^a-zA-Z0-9 ]/g, "").trim()}
+                      <div className="flex items-center gap-3 mt-3 text-[10px]">
+                        <span className="px-2.5 py-px bg-slate-100 rounded-full font-mono text-slate-500">
+                          {doc.category.split(" ").pop()}
                         </span>
-                        <span className="text-[9px] text-slate-400 flex items-center gap-0.5">
-                          <FiClock size={10} />
-                          {doc.readingTime || "1 min read"}
+                        <span className="flex items-center gap-1 text-slate-400">
+                          <FiClock size={11} /> {doc.readingTime}
                         </span>
                       </div>
                     </div>
@@ -684,45 +684,38 @@ const Docs = () => {
       </div>
 
       {/* 2. DOCUMENT VIEWER / WRITER INTERFACE (Right Panel) */}
-      <div className="flex-1 bg-white h-full overflow-hidden flex flex-col">
+      <div className="flex-1 bg-white h-full overflow-hidden flex flex-col border-l border-slate-100">
         {isEditing || isCreating ? (
-          
           /* ================== EDITOR VIEW ================== */
           <form onSubmit={handleFormSubmit} className="flex-1 flex flex-col h-full overflow-hidden">
-            
             {/* Editor Header Toolbar */}
-            <div className="px-6 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+            <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div>
-                <h3 className="text-sm font-bold text-slate-800">
-                  {isCreating ? "Drafting New Document" : `Editing: ${selectedDoc?.title}`}
+                <h3 className="text-lg font-semibold text-slate-900">
+                  {isCreating ? "New Document" : `Edit: ${selectedDoc?.title}`}
                 </h3>
-                <p className="text-[10px] text-slate-400 mt-0.5">
-                  Write beautiful custom pages utilizing lightweight markdown elements.
-                </p>
+                <p className="text-xs text-slate-500">Markdown editor • Real-time preview</p>
               </div>
 
-              {/* View / Edit Mode Toggles */}
-              <div className="flex items-center gap-4">
-                <div className="flex bg-slate-100 rounded-md p-0.5 text-xs font-semibold">
+              <div className="flex items-center gap-3">
+                <div className="flex bg-slate-100 rounded-2xl p-1 text-sm">
                   <button
                     type="button"
                     onClick={() => setEditorTab("edit")}
-                    className={`px-3 py-1 rounded flex items-center gap-1.5 transition ${
-                      editorTab === "edit" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-800"
+                    className={`px-5 py-1.5 rounded-[14px] flex items-center gap-2 transition-all ${
+                      editorTab === "edit" ? "bg-white shadow text-indigo-700 font-medium" : "text-slate-600 hover:text-slate-800"
                     }`}
                   >
-                    <FiCode size={13} />
-                    <span>Markdown</span>
+                    <FiCode size={15} /> Editor
                   </button>
                   <button
                     type="button"
                     onClick={() => setEditorTab("preview")}
-                    className={`px-3 py-1 rounded flex items-center gap-1.5 transition ${
-                      editorTab === "preview" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-800"
+                    className={`px-5 py-1.5 rounded-[14px] flex items-center gap-2 transition-all ${
+                      editorTab === "preview" ? "bg-white shadow text-indigo-700 font-medium" : "text-slate-600 hover:text-slate-800"
                     }`}
                   >
-                    <FiEye size={13} />
-                    <span>Live Preview</span>
+                    <FiEye size={15} /> Preview
                   </button>
                 </div>
 
@@ -733,15 +726,15 @@ const Docs = () => {
                       setIsEditing(false);
                       setIsCreating(false);
                     }}
-                    className="px-3.5 py-1.5 border border-slate-300 rounded-md text-xs font-semibold hover:bg-slate-50 text-slate-600 transition"
+                    className="px-6 py-2 border border-slate-300 hover:bg-slate-50 rounded-2xl text-sm font-medium text-slate-600 transition"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-xs font-semibold shadow-sm hover:shadow transition"
+                    className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-sm font-semibold shadow transition active:scale-95"
                   >
-                    Save Changes
+                    Save Document
                   </button>
                 </div>
               </div>
@@ -750,303 +743,173 @@ const Docs = () => {
             {/* Editor Workspace */}
             <div className="flex-1 flex overflow-hidden">
               {/* Form Input Area */}
-              <div className={`flex-1 flex flex-col p-6 overflow-y-auto gap-4 ${editorTab === "preview" ? "hidden" : ""}`}>
-                
-                {/* Meta Inputs Row */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Title */}
-                  <div className="md:col-span-2 flex flex-col gap-1.5">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Document Title</label>
+              <div className={`flex-1 flex flex-col p-8 overflow-y-auto gap-6 ${editorTab === "preview" ? "hidden" : ""}`}>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-8 flex flex-col gap-2">
+                    <label className="text-xs font-semibold text-slate-500 tracking-widest">TITLE</label>
                     <input
                       type="text"
-                      placeholder="e.g. Coding Guidelines & Linting"
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
-                      className="border border-slate-200 rounded-lg p-2.5 text-xs font-medium outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                      className="border border-slate-200 focus:border-indigo-400 rounded-2xl px-5 py-3.5 text-base outline-none"
+                      placeholder="Document title"
                       required
                     />
                   </div>
-
-                  {/* Icon Select */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Accent Emoji / Icon</label>
-                    <div className="flex gap-2">
-                      <select
-                        value={editIcon}
-                        onChange={(e) => setEditIcon(e.target.value)}
-                        className="flex-1 border border-slate-200 rounded-lg p-2.5 text-xs font-medium outline-none focus:border-indigo-500 bg-white"
-                      >
-                        <option value="🚀">🚀 Launch / Info</option>
-                        <option value="💻">💻 Technical / Stack</option>
-                        <option value="💡">💡 Idea / Reference</option>
-                        <option value="👥">👥 Team / Rules</option>
-                        <option value="📄">📄 File / Blank</option>
-                        <option value="🔑">🔑 Resources / Creds</option>
-                        <option value="⚙️">⚙️ Settings / Configs</option>
-                        <option value="📅">📅 Schedule / Planning</option>
-                      </select>
-                    </div>
+                  <div className="lg:col-span-4 flex flex-col gap-2">
+                    <label className="text-xs font-semibold text-slate-500 tracking-widest">ICON</label>
+                    <select
+                      value={editIcon}
+                      onChange={(e) => setEditIcon(e.target.value)}
+                      className="border border-slate-200 focus:border-indigo-400 rounded-2xl px-5 py-3.5 text-base outline-none bg-white"
+                    >
+                      <option value="🚀">🚀</option>
+                      <option value="💻">💻</option>
+                      <option value="💡">💡</option>
+                      <option value="👥">👥</option>
+                      <option value="📄">📄</option>
+                    </select>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Category Selection */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Wiki Category</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold text-slate-500 tracking-widest">CATEGORY</label>
                     <select
                       value={editCategory}
                       onChange={(e) => setEditCategory(e.target.value)}
-                      className="border border-slate-200 rounded-lg p-2.5 text-xs font-medium outline-none focus:border-indigo-500 bg-white"
+                      className="border border-slate-200 focus:border-indigo-400 rounded-2xl px-5 py-3.5 outline-none bg-white"
                     >
                       {CATEGORIES.slice(1).map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
+                        <option key={cat} value={cat}>{cat}</option>
                       ))}
                     </select>
                   </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tags (Comma-separated)</label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold text-slate-500 tracking-widest">TAGS</label>
                     <input
                       type="text"
-                      placeholder="e.g. React, Onboarding, CSS"
                       value={editTags}
                       onChange={(e) => setEditTags(e.target.value)}
-                      className="border border-slate-200 rounded-lg p-2.5 text-xs font-medium outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                      className="border border-slate-200 focus:border-indigo-400 rounded-2xl px-5 py-3.5 outline-none"
+                      placeholder="tag1, tag2"
                     />
                   </div>
                 </div>
 
-                {/* Description input */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Short Abstract / Description</label>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-semibold text-slate-500 tracking-widest">DESCRIPTION</label>
                   <input
                     type="text"
-                    placeholder="Provide a concise 1-sentence abstract of this guide..."
                     value={editDescription}
                     onChange={(e) => setEditDescription(e.target.value)}
-                    className="border border-slate-200 rounded-lg p-2.5 text-xs font-medium outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                    className="border border-slate-200 focus:border-indigo-400 rounded-2xl px-5 py-3.5 outline-none"
+                    placeholder="Brief summary"
                   />
                 </div>
 
-                {/* Markdown Toolbar Helper */}
-                <div className="bg-slate-100/70 border border-slate-200/50 rounded-lg p-3 flex flex-wrap gap-2 items-center justify-between select-none">
-                  <div className="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase tracking-wider">
-                    <FiLayers size={13} className="text-slate-400" />
-                    <span>Quick Markdown Injectors:</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => insertTemplate("note")}
-                      className="px-2 py-1 bg-white hover:bg-indigo-50 hover:text-indigo-600 rounded text-[10px] font-bold border border-slate-200 transition"
-                    >
-                      + Notice Box
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertTemplate("warning")}
-                      className="px-2 py-1 bg-white hover:bg-amber-50 hover:text-amber-600 rounded text-[10px] font-bold border border-slate-200 transition"
-                    >
-                      + Warning Box
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertTemplate("code")}
-                      className="px-2 py-1 bg-white hover:bg-slate-100 rounded text-[10px] font-bold border border-slate-200 transition"
-                    >
-                      + Code Snippet
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertTemplate("table")}
-                      className="px-2 py-1 bg-white hover:bg-slate-100 rounded text-[10px] font-bold border border-slate-200 transition"
-                    >
-                      + Data Table
-                    </button>
+                {/* Toolbar */}
+                <div className="bg-slate-50 border border-slate-100 rounded-3xl p-4 flex items-center gap-4">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Insert:</span>
+                  <div className="flex gap-2 flex-wrap">
+                    {[
+                      {label: "Note", type: "note"},
+                      {label: "Warning", type: "warning"},
+                      {label: "Code", type: "code"},
+                      {label: "Table", type: "table"}
+                    ].map(item => (
+                      <button
+                        key={item.type}
+                        type="button"
+                        onClick={() => insertTemplate(item.type)}
+                        className="text-xs px-4 py-2 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl hover:bg-white transition"
+                      >
+                        {item.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                {/* Document Body (Text Area) */}
-                <div className="flex-1 flex flex-col gap-1.5 min-h-[300px]">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
-                    <span>Document Body (Markdown Supported)</span>
-                    <span className="text-[9px] font-normal text-slate-400 capitalize">
-                      Use standard headings (#, ##), bullet points (-), bold (**), or code blocks (\`\`\`)
-                    </span>
-                  </label>
+                <div className="flex-1 flex flex-col gap-2">
+                  <label className="text-xs font-semibold text-slate-500 tracking-widest">CONTENT (MARKDOWN)</label>
                   <textarea
-                    placeholder="# Main Title Goes Here&#10;&#10;Use headings, paragraphs, and markdown blockquotes to structure your document."
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="flex-1 w-full border border-slate-200 rounded-lg p-4 text-xs font-mono outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none leading-relaxed"
+                    className="flex-1 border border-slate-200 focus:border-indigo-400 rounded-3xl p-6 text-sm font-mono resize-y min-h-[400px] outline-none leading-relaxed"
+                    placeholder="Start writing..."
                   />
                 </div>
               </div>
 
-              {/* Rendered markdown Live Preview */}
-              <div className={`flex-1 p-8 overflow-y-auto bg-white ${editorTab === "edit" ? "hidden" : ""}`}>
-                <div className="max-w-2xl mx-auto">
-                  <div className="flex items-center gap-2 mb-2 select-none">
-                    <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 py-0.5 px-2 rounded uppercase tracking-wider">
-                      {editCategory}
-                    </span>
-                    <span className="text-slate-300">•</span>
-                    <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                      <FiClock size={11} />
-                      Live Document Preview
-                    </span>
-                  </div>
-
-                  <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3 mb-2">
-                    <span className="text-4xl select-none">{editIcon}</span>
-                    <span>{editTitle || "Untitled Document"}</span>
-                  </h1>
-
-                  <p className="text-sm text-slate-500 italic mb-6">
-                    {editDescription || "No abstract provided."}
-                  </p>
-
-                  <div className="prose prose-sm max-w-none text-slate-800">
-                    {editContent ? (
-                      <div dangerouslySetInnerHTML={{ __html: renderMarkdown(editContent) }} />
-                    ) : (
-                      <div className="text-center py-20 text-slate-400 italic text-xs">
-                        Start typing in the Markdown tab to preview your documentation...
-                      </div>
-                    )}
-                  </div>
+              {/* Preview */}
+              <div className={`flex-1 p-10 overflow-y-auto bg-slate-50 ${editorTab === "edit" ? "hidden" : ""}`}>
+                <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow p-10">
+                  <div dangerouslySetInnerHTML={{ __html: renderMarkdown(editContent) }} />
                 </div>
               </div>
             </div>
           </form>
         ) : (
-          
           /* ================== VIEWER VIEW ================== */
           selectedDoc ? (
             <div className="flex-1 flex flex-col h-full overflow-hidden select-text">
-              
-              {/* Document Header Panel */}
-              <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/30 select-none">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-3xl select-none">{selectedDoc.icon || "📄"}</span>
+              {/* Header */}
+              <div className="px-10 py-6 border-b bg-white flex items-start justify-between shrink-0">
+                <div className="flex gap-5">
+                  <div className="text-5xl mt-1">{selectedDoc.icon}</div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-extrabold text-indigo-600 bg-indigo-50 py-0.5 px-2 rounded uppercase tracking-wider">
-                        {selectedDoc.category}
-                      </span>
-                      <span className="text-slate-300">•</span>
-                      <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                        <FiClock size={10} />
-                        {selectedDoc.readingTime || "3 min read"}
+                    <div className="flex gap-3 items-center">
+                      <span className="px-4 py-1 text-xs font-mono bg-indigo-100 text-indigo-700 rounded-3xl">{selectedDoc.category}</span>
+                      <span className="text-xs text-slate-400 flex items-center gap-1.5">
+                        <FiClock /> {selectedDoc.readingTime}
                       </span>
                     </div>
-                    <h2 className="text-lg font-bold text-slate-800 mt-1 truncate max-w-xl">
+                    <h1 className="text-3xl font-bold text-slate-900 mt-2 leading-tight">
                       {selectedDoc.title}
-                    </h2>
+                    </h1>
                   </div>
                 </div>
 
-                {/* Edit / Delete action buttons */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={startEdit}
-                    className="flex items-center gap-1.5 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-600 font-semibold py-1.5 px-3 rounded-md text-xs transition duration-200"
-                  >
-                    <FiEdit size={13} />
-                    <span>Edit Article</span>
+                <div className="flex gap-3 pt-2">
+                  <button onClick={startEdit} className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 hover:bg-slate-50 rounded-2xl text-sm font-medium transition">
+                    <FiEdit size={16} /> Edit
                   </button>
-
                   {isAdminOrManager && (
-                    <button
-                      onClick={() => handleDeleteDoc(selectedDoc.id)}
-                      className="flex items-center gap-1.5 border border-rose-200 hover:border-rose-300 hover:bg-rose-50 text-rose-600 font-semibold py-1.5 px-3 rounded-md text-xs transition duration-200"
-                    >
-                      <FiTrash2 size={13} />
-                      <span>Delete</span>
+                    <button onClick={() => handleDeleteDoc(selectedDoc.id)} className="flex items-center gap-2 px-5 py-2.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded-2xl text-sm font-medium transition">
+                      <FiTrash2 size={16} /> Delete
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Scrollable Doc Content Area */}
-              <div className="flex-1 overflow-y-auto px-8 py-6">
-                <div className="max-w-2xl mx-auto pb-16">
-                  
-                  {/* Article Metadata Card */}
-                  <div className="bg-slate-50 rounded-xl border border-slate-200/50 p-4 mb-8 flex items-center justify-between select-none">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold uppercase">
-                        {selectedDoc.author ? selectedDoc.author.charAt(0) : "T"}
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-800">{selectedDoc.author || "Team Member"}</div>
-                        <div className="text-[10px] text-slate-400 mt-0.5">Author & Contributor</div>
-                      </div>
-                    </div>
-
-                    <div className="text-right">
-                      <div className="text-[10px] text-slate-400 font-medium">Last Modified</div>
-                      <div className="text-xs font-semibold text-slate-800 mt-0.5">{selectedDoc.lastUpdated}</div>
-                    </div>
+              <div className="flex-1 overflow-y-auto p-10 bg-slate-50">
+                <div className="max-w-3xl mx-auto">
+                  <div className="prose prose-slate max-w-none">
+                    <div dangerouslySetInnerHTML={{ __html: renderMarkdown(selectedDoc.content) }} />
                   </div>
 
-                  {/* Abstract Section */}
-                  {selectedDoc.description && (
-                    <div className="text-sm font-medium text-slate-500 italic border-l-2 border-indigo-600 pl-4 py-0.5 mb-8 select-text leading-relaxed">
-                      {selectedDoc.description}
-                    </div>
-                  )}
-
-                  {/* Rendered HTML */}
-                  <div className="prose prose-slate max-w-none text-slate-800 select-text font-normal leading-relaxed">
-                    <div 
-                      className="markdown-body"
-                      dangerouslySetInnerHTML={{ __html: renderMarkdown(selectedDoc.content) }} 
-                    />
-                  </div>
-
-                  {/* Document tags footer */}
-                  {selectedDoc.tags && selectedDoc.tags.length > 0 && (
-                    <div className="mt-12 pt-6 border-t border-slate-100 flex flex-wrap gap-1.5 items-center select-none">
-                      <FiTag size={12} className="text-slate-400 mr-1" />
-                      {selectedDoc.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="bg-slate-100 text-slate-600 text-[10px] font-semibold py-1 px-2.5 rounded-md hover:bg-slate-200 cursor-pointer transition"
-                        >
-                          {tag}
-                        </span>
+                  {selectedDoc.tags?.length > 0 && (
+                    <div className="mt-16 flex flex-wrap gap-2">
+                      {selectedDoc.tags.map(tag => (
+                        <span key={tag} className="text-xs bg-white px-4 py-1.5 rounded-2xl border">#{tag}</span>
                       ))}
                     </div>
                   )}
-
                 </div>
               </div>
             </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 select-none">
-              <div className="w-16 h-16 rounded-full bg-slate-50 border border-slate-200/50 flex items-center justify-center mb-4 text-slate-400 shadow-sm">
-                <FiBookOpen size={28} />
-              </div>
-              <h3 className="text-sm font-bold text-slate-800">No Document Selected</h3>
-              <p className="text-xs text-slate-400 mt-1 max-w-xs">
-                Select an article from the wiki tree or create a new one to begin documentation.
-              </p>
-              <button
-                onClick={startCreate}
-                className="mt-4 flex items-center gap-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3.5 rounded-lg shadow transition"
-              >
-                <FiPlus size={14} />
-                <span>Create First Doc</span>
+            <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
+              <FiBookOpen className="text-slate-300 mb-6" size={80} />
+              <h3 className="text-2xl font-semibold text-slate-800">Documentation Hub</h3>
+              <p className="text-slate-500 mt-3 max-w-md">Select or create a document from the sidebar to view or edit.</p>
+              <button onClick={startCreate} className="mt-8 px-8 py-3 bg-indigo-600 text-white rounded-2xl font-medium flex items-center gap-3 hover:bg-indigo-700 transition">
+                <FiPlus /> Create New Document
               </button>
             </div>
           )
         )}
       </div>
-
     </div>
   );
 };
