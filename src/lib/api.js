@@ -1,5 +1,7 @@
 // src/lib/api.js
-export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+export const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? "http://localhost:5000/api" : "/api");
 
 const TOKEN_KEY = "catalyst.token";
 
@@ -35,7 +37,7 @@ export async function api(path, { method = "GET", body, signal } = {}) {
     });
   } catch (err) {
     if (err.name === "AbortError") throw err;
-    const e = new Error("Can't reach the Catalyst server. Is it running on port 5000?");
+    const e = new Error("Can't reach the Catalyst server. Please check your backend connection.");
     e.status = 0;
     throw e;
   }
