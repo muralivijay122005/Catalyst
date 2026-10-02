@@ -8,11 +8,13 @@ const dns = require("dns");
 
 dotenv.config({ path: path.join(__dirname, ".env"), quiet: true });
 
-// Node public DNS resolver fallback
-try {
-  dns.setServers(["8.8.8.8", "1.1.1.1"]);
-} catch {
-  // Ignore in environments where setting DNS isn't allowed
+// On Windows local development Node sometimes fails reading system DNS for Atlas SRV lookups
+if (process.platform === "win32") {
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  } catch {
+    // Ignore
+  }
 }
 
 const app = express();
@@ -109,8 +111,11 @@ app.use((err, _req, res, _next) => {
     return res.status(409).json({ message: `That ${field} is already taken` });
   }
   if (err.status) return res.status(err.status).json({ message: err.message });
-  console.error(err);
-  res.status(500).json({ message: "Something went wrong on our side" });
+  console.error("API error:", err);
+  res.status(500).json({
+    message: err.message || "Something went wrong on our side",
+    error: process.env.NODE_ENV === "production" && !process.env.DEBUG ? undefined : err.stack,
+  });
 });
 
 module.exports = { app, connectDB };
