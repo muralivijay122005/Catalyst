@@ -30,6 +30,7 @@ import { renderInline } from "../lib/markdown";
 import { formatTime, fullName, startOfDay } from "../lib/format";
 import DistillModal from "../components/kb/DistillModal";
 import MentionInput from "../components/ui/MentionInput";
+import PresenceText from "../components/ui/PresenceText";
 import ChannelMembers from "../components/channel/ChannelMembers";
 
 const REACTIONS = ["👍", "🎉", "👀", "✅", "❤️"];
@@ -313,7 +314,11 @@ export default function Channels() {
               {channel.kind === "dm" ? <Avatar user={dmUser(channel)} size={26} presence /> : channel.project ? <ProjectMark project={channel.project} size={22} /> : channel.locked ? <LuMegaphone size={17} /> : <LuHash size={17} />}
               <div className="min-w-0">
                 <h2 className="text-[15px] font-semibold tracking-tight truncate">{title}</h2>
-                {channel.topic && <p className="text-xs text-muted truncate -mt-0.5">{channel.topic}</p>}
+                {channel.kind === "dm" ? (
+                  <PresenceText user={dmUser(channel)} className="text-xs -mt-0.5" />
+                ) : (
+                  channel.topic && <p className="text-xs text-muted truncate -mt-0.5">{channel.topic}</p>
+                )}
               </div>
               <div className="ml-auto flex items-center gap-2">
                 {channel.can?.join && (

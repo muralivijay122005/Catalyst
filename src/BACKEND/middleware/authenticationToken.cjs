@@ -24,10 +24,7 @@ async function authenticateToken(req, res, next) {
   if (user.status === "deactivated") return res.status(401).json({ message: "This account has been deactivated" });
 
   req.user = user;
-  // Cheap presence tracking: at most one write per minute per user
-  if (!user.lastSeenAt || Date.now() - user.lastSeenAt.getTime() > 60_000) {
-    User.updateOne({ _id: user._id }, { lastSeenAt: new Date() }).catch(() => {});
-  }
+  // Presence is tracked by explicit heartbeats (POST /api/users/presence), not by every request
   next();
 }
 

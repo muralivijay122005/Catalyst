@@ -1,15 +1,16 @@
 // src/components/ui/Avatar.jsx
 import { initials, fullName } from "../../lib/format";
-import { isOnline } from "../../lib/people";
+import { usePresence, presenceLabel } from "../../lib/presence";
 
 export function Avatar({ user, size = 24, ring = false, presence = false, className = "" }) {
-  const online = presence && isOnline(user);
+  const p = usePresence(presence ? user : null);
+  const online = presence && p.online;
   const fontSize = Math.max(9, Math.round(size * 0.4));
   return (
     <span
       className={`relative inline-grid place-items-center shrink-0 rounded-full font-semibold text-white select-none ${ring ? "ring-2 ring-surface" : ""} ${className}`}
       style={{ width: size, height: size, fontSize, background: user ? user.avatarColor || "#0f172a" : "#e4e4e7", letterSpacing: 0 }}
-      title={fullName(user) || "Unassigned"}
+      title={user ? (presence ? `${fullName(user)} · ${presenceLabel(p)}` : fullName(user)) : "Unassigned"}
     >
       {user ? initials(user) : <UnassignedGlyph size={size} />}
       {online && (

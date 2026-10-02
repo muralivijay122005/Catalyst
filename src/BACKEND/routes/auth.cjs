@@ -48,8 +48,14 @@ router.post("/login", async (req, res) => {
     return res.status(403).json({ message: "This account has been deactivated. Contact your admin." });
   }
   user.lastSeenAt = new Date();
+  user.presence = "online";
   await user.save();
   res.json({ token: signToken(user), ...session(user) });
+});
+
+router.post("/logout", authenticateToken, async (req, res) => {
+  await User.updateOne({ _id: req.user._id }, { presence: "offline", lastSeenAt: new Date() });
+  res.json({ ok: true });
 });
 
 router.get("/me", authenticateToken, async (req, res) => {

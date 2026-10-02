@@ -31,6 +31,8 @@ export function AuthProvider({ children }) {
   }, [applySession]);
 
   const logout = useCallback(() => {
+    // Mark offline right away (uses the token before it's cleared); don't block sign-out on it
+    if (getToken()) api.post("/auth/logout").catch(() => {});
     setToken(null);
     setUser(null);
     setPermissions([]);

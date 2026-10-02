@@ -2,7 +2,8 @@
 // Workspace-wide state: projects, people, unread count, and app-level actions (open task, create task, palette).
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { api } from "../lib/api";
+import { api, API_BASE, getToken } from "../lib/api";
+import { setPresence, patchPresence } from "../lib/presence";
 import { useAuth } from "./AuthContext";
 
 const WorkspaceContext = createContext(null);
@@ -48,6 +49,71 @@ export function WorkspaceProvider({ children }) {
     const t = setInterval(refreshUnread, 30000);
     return () => clearInterval(t);
   }, [user, refreshProjects, refreshPeople, refreshUnread]);
+
+  // Presence: heartbeat while this tab is visible and in use; poll everyone's status to keep dots live
+  const userId = user?._id;
+  useEffect(() => {
+    if (!userId) return undefined;
+    const HEARTBEAT_MS = 45_000;
+    const POLL_MS = 30_000;
+    const IDLE_MS = 5 * 60_000;
+    let lastInteraction = Date.now();
+    let lastBeat = 0;
+
+    const isActive = () => document.visibilityState === "visible" && Date.now() - lastInteraction < IDLE_MS;
+    const beat = () => {
+      if (!isActive()) return;
+      lastBeat = Date.now();
+      patchPresence(userId, { online: true, lastSeenAt: new Date().toISOString() });
+      api.post("/users/presence", { state: "online" }).catch(() => {});
+    };
+    const poll = () =>
+      api("/users/presence")
+        .then((r) => setPresence(r.people, r.serverTime))
+        .catch(() => {});
+
+    // Coming back after being idle or away counts immediately
+    const onActivity = () => {
+      const wasIdle = Date.now() - lastInteraction >= IDLE_MS;
+      lastInteraction = Date.now();
+      if (wasIdle || Date.now() - lastBeat > HEARTBEAT_MS) beat();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") {
+        lastInteraction = Date.now();
+        beat();
+        poll();
+      }
+    };
+    // Closing the tab or the browser: tell the server right away (keepalive survives the unload)
+    const onPageHide = () => {
+      const token = getToken();
+      if (!token) return;
+      fetch(`${API_BASE}/users/presence`, {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ state: "offline" }),
+      }).catch(() => {});
+    };
+
+    const activityEvents = ["pointerdown", "keydown", "mousemove", "wheel", "touchstart"];
+    activityEvents.forEach((e) => window.addEventListener(e, onActivity, { passive: true }));
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", onPageHide);
+
+    beat();
+    poll();
+    const beatTimer = setInterval(beat, HEARTBEAT_MS);
+    const pollTimer = setInterval(poll, POLL_MS);
+    return () => {
+      activityEvents.forEach((e) => window.removeEventListener(e, onActivity));
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", onPageHide);
+      clearInterval(beatTimer);
+      clearInterval(pollTimer);
+    };
+  }, [userId]);
 
   const taskChanged = useCallback(() => {
     setTaskVersion((v) => v + 1);

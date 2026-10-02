@@ -1,8 +1,8 @@
 // src/lib/people.js
-const ONLINE_WINDOW = 10 * 60 * 1000;
+import { getPresence } from "./presence";
 
-/** True when someone was active in the last few minutes. */
-export const isOnline = (user) => Boolean(user?.lastSeenAt) && Date.now() - new Date(user.lastSeenAt).getTime() < ONLINE_WINDOW;
+/** True when someone has an active tab right now (see lib/presence.js). */
+export const isOnline = (user) => getPresence(user).online;
 
 /** People who can be assigned work in a project: the owner plus non-viewer members, active only. */
 export function contributors(project) {

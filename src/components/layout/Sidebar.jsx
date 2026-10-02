@@ -331,7 +331,7 @@ export default function Sidebar({ collapsed, onToggle }) {
               className={`flex items-center gap-2.5 w-full rounded-lg outline-none transition-colors focus-visible:shadow-[var(--shadow-focus)] ${collapsed ? "justify-center p-1" : "p-1.5"
                 } ${open ? "bg-black/[0.05]" : "hover:bg-black/[0.04]"}`}
             >
-              <Avatar user={user} size={collapsed ? 28 : 30} />
+              <Avatar user={user} size={collapsed ? 28 : 30} presence />
               {!collapsed && (
                 <>
                   <span className="flex-1 min-w-0 text-left">

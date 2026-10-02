@@ -17,7 +17,9 @@ const UserSchema = new mongoose.Schema(
     location: { type: String, trim: true, default: "", maxlength: 80 },
     avatarColor: { type: String, default: "#2563eb" },
     status: { type: String, enum: ["active", "deactivated"], default: "active" },
+    // Last heartbeat or sign-out; shown as "Active 3 hrs ago" when offline
     lastSeenAt: { type: Date },
+    presence: { type: String, enum: ["online", "offline"], default: "offline" },
     preferences: {
       weekStartsOn: { type: Number, enum: [0, 1], default: 1 },
       defaultProjectView: { type: String, enum: ["board", "list", "calendar", "timeline"], default: "board" },
@@ -52,6 +54,6 @@ UserSchema.set("toJSON", {
 });
 
 // Fields that are safe to expose when another document populates a user
-UserSchema.statics.PUBLIC = "firstName lastName username email role title department avatarColor status location lastSeenAt";
+UserSchema.statics.PUBLIC = "firstName lastName username email role title department avatarColor status location lastSeenAt presence";
 
 module.exports = mongoose.model("User", UserSchema);

@@ -29,8 +29,8 @@ import { useAuth } from "../context/AuthContext";
 import { useWorkspace } from "../context/WorkspaceContext";
 import { api } from "../lib/api";
 import { ROLE, PROJECT_ROLE } from "../lib/constants";
-import { fullName, timeAgo } from "../lib/format";
-import { isOnline } from "../lib/people";
+import { fullName } from "../lib/format";
+import PresenceText from "../components/ui/PresenceText";
 
 const MATRIX = [
   ["See all projects (read-only oversight)", { admin: true, manager: true }],
@@ -257,8 +257,7 @@ function PersonSheet({ person, onClose }) {
                 </p>
               )}
               <p className="flex items-center gap-2">
-                <span className={`size-2 rounded-full ${isOnline(person) ? "bg-ok" : "bg-line-strong"}`} />
-                {person.lastSeenAt ? `Active ${timeAgo(person.lastSeenAt)}` : "Never signed in"}
+                <PresenceText user={person} />
               </p>
             </div>
             {person.projects?.length > 0 && (
@@ -458,7 +457,7 @@ export default function Team() {
                 <span>Role</span>
                 <span>Projects</span>
                 <span>Workload</span>
-                <span>Last active</span>
+                <span>Status</span>
                 <span />
               </div>
               <div className="stagger">
@@ -530,7 +529,7 @@ export default function Team() {
                           <div className="h-full rounded-full origin-left" style={{ width: `${(p.workload.open / maxOpen) * 100}%`, background: p.workload.overdue ? "var(--color-danger)" : "var(--color-ink-2)", animation: "grow-x 700ms var(--ease-out-expo) both" }} />
                         </div>
                       </div>
-                      <span className="hidden md:block text-xs text-muted">{p.lastSeenAt ? timeAgo(p.lastSeenAt) : "Never"}</span>
+                      <PresenceText user={p} dot={false} className="hidden md:inline-flex text-xs" />
                       <Popover
                         placement="bottom-end"
                         width={210}

@@ -7,6 +7,7 @@ const { authenticateToken, requireGlobal } = require("../middleware/authenticati
 const { ROLES, ROLE_LABEL, invitableRoles, isAdmin, sameId, projectRole } = require("../utils/permissions.cjs");
 const { badRequest, forbidden, notFound, isObjectId } = require("../utils/http.cjs");
 const { notify, visibleProjects } = require("../utils/access.cjs");
+const { presenceOf } = require("../utils/presence.cjs");
 
 router.use(authenticateToken);
 
@@ -58,9 +59,34 @@ router.get("/", async (req, res) => {
         fullName: `${u.firstName} ${u.lastName}`,
         workload: byUser.get(String(u._id)) || { open: 0, overdue: 0, inReview: 0 },
         projects: memberships(u._id),
+        online: presenceOf(u).online,
       };
     })
   );
+});
+
+/* ── Presence ────────────────────────────────────────────────── */
+
+/** Heartbeat from an active tab ({ state: "online" }) or an explicit sign-off ({ state: "offline" }). */
+router.post("/presence", async (req, res) => {
+  const state = req.body?.state === "offline" ? "offline" : "online";
+  await User.updateOne({ _id: req.user._id }, { presence: state, lastSeenAt: new Date() }, { timestamps: false });
+  res.json({ ok: true, state });
+});
+
+/** Lightweight presence for everyone the caller can see — polled to keep dots and "Active x ago" live. */
+router.get("/presence", async (req, res) => {
+  let users = await User.find({ status: "active" }).select("_id lastSeenAt presence").lean();
+  if (req.user.role === "guest") {
+    const shared = new Set([String(req.user._id)]);
+    (await visibleProjects(req.user)).forEach((p) => {
+      shared.add(String(p.owner));
+      p.members.forEach((m) => shared.add(String(m.user)));
+    });
+    users = users.filter((u) => shared.has(String(u._id)));
+  }
+  const now = Date.now();
+  res.json({ serverTime: new Date(now).toISOString(), people: users.map((u) => presenceOf(u, now)) });
 });
 
 router.get("/meta", (req, res) => {
