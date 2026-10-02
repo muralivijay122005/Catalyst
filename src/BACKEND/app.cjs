@@ -17,6 +17,12 @@ if (process.platform === "win32") {
   }
 }
 
+// Fail fast instead of buffering queries for 10s when the database isn't reachable
+mongoose.set("bufferCommands", false);
+
+const MISSING_ENV = ["MONGODB_URI", "JWT_SECRET"].filter((k) => !process.env[k]);
+if (MISSING_ENV.length) console.error(`Missing environment variables: ${MISSING_ENV.join(", ")}`);
+
 const app = express();
 
 app.use(
@@ -44,8 +50,10 @@ const connectDB = async () => {
 
   const mongoUri = process.env.MONGODB_URI;
   if (!mongoUri) {
-    console.error("MONGODB_URI environment variable is not defined");
-    return;
+    // .env is gitignored, so on Vercel this must be set under Project → Settings → Environment Variables
+    const err = new Error("MONGODB_URI is not set. Add it in your hosting provider's environment variables and redeploy.");
+    err.status = 503;
+    throw err;
   }
 
   connectingPromise = (async () => {
@@ -74,8 +82,12 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (err) {
-    console.error("Database connection error in request middleware:", err);
-    res.status(503).json({ message: "Database unavailable. Please check MONGODB_URI." });
+    console.error("Database connection error in request middleware:", err.message);
+    res.status(503).json({
+      message: process.env.MONGODB_URI
+        ? "Can't reach the database. If you're on Vercel, allow access from anywhere (0.0.0.0/0) in MongoDB Atlas → Network Access."
+        : err.message,
+    });
   }
 });
 
@@ -94,7 +106,13 @@ app.get("/api/health", async (_req, res) => {
   } catch {
     // Return connection status even if not connected
   }
-  res.json({ ok: true, db: mongoose.connection.readyState === 1 });
+  // Reports which settings are missing (never their values) to make deployment issues obvious
+  res.json({
+    ok: true,
+    db: mongoose.connection.readyState === 1,
+    missingEnv: ["MONGODB_URI", "JWT_SECRET"].filter((k) => !process.env[k]),
+    ai: Boolean(process.env.GROQ_API_KEY),
+  });
 });
 
 app.use("/api", (_req, res) => res.status(404).json({ message: "Endpoint not found" }));
